@@ -1,0 +1,73 @@
+{% extends "layout.html" %} {% block content %}
+<div class="accordion accordion-flush" id="accordionFlushExample">
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button
+        type="button"
+        class="accordion-button collapsed"
+        data-bs-toggle="collapse"
+        data-bs-target="#flush-collapseOne"
+        aria-expanded="false"
+        aria-controls="flush-collapseOne"
+      >
+        操作対象の選択
+      </button>
+    </h2>
+    <div
+      id="flush-collapseOne"
+      class="accordion-collapse collapse"
+      data-bs-parent="#accordionFlushExample"
+    >
+      <div class="accordion-body">
+        このアコーディオンのプレースホルダコンテンツ...
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button
+        type="button"
+        class="accordion-button collapsed"
+        data-bs-toggle="collapse"
+        data-bs-target="#flush-collapseTwo"
+        aria-expanded="false"
+        aria-controls="flush-collapseTwo"
+      >
+        操作内容の設定
+      </button>
+    </h2>
+    <div
+      id="flush-collapseTwo"
+      class="accordion-collapse collapse"
+      data-bs-parent="#accordionFlushExample"
+    >
+      <div class="accordion-body">
+        このアコーディオンのプレースホルダコンテンツ...
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button
+        type="button"
+        class="accordion-button collapsed"
+        data-bs-toggle="collapse"
+        data-bs-target="#flush-collapseThree"
+        aria-expanded="false"
+        aria-controls="flush-collapseThree"
+      >
+        最終確認
+      </button>
+    </h2>
+    <div
+      id="flush-collapseThree"
+      class="accordion-collapse collapse"
+      data-bs-parent="#accordionFlushExample"
+    >
+      <div class="accordion-body">
+        このアコーディオンのプレースホルダコンテンツ...
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

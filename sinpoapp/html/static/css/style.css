@@ -1,0 +1,17 @@
+svg {
+  fill: var(--bs-navbar-brand-color);
+}
+
+body {
+  padding-top: 67px;
+  font-family: "游ゴシック", "Yu Gothic", sans-serif;
+  font-weight: 600;
+}
+
+a.nodeco {
+  color: inherit;
+}
+
+.fx1 {
+  flex: 1;
+}
