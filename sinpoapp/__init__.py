@@ -6,4 +6,7 @@ app.config.from_object("sinpoapp.config")  # 追加
 
 db = SQLAlchemy(app)
 
+from .models import gino, graduate, scouts
+
+
 from sinpoapp.views import views, export, scouts
