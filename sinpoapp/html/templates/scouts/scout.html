@@ -1,3 +1,39 @@
-<div id="detail">
-  <h1>TEST{{ scout }}</h1>
+<div
+  id="detail"
+  class="d-flex align-items-center justify-content-center flex-column text-center fx1"
+>
+  <h2 class="w-100">詳細</h2>
+  <table class="table caption-top table-striped-columns">
+    <caption>
+      個人情報
+    </caption>
+    <thead>
+      <tr class="row">
+        <th class="col-2" scope="row">項目</th>
+        <th class="col-10">内容</th>
+      </tr>
+    </thead>
+    <tbody class="table-group-divider">
+      <tr class="row">
+        <th class="col-2" scope="row">名前</th>
+        <td class="col-10">{{ scout.middle }} {{ scout.name }}</td>
+      </tr>
+      <tr class="row">
+        <th class="col-2" scope="row">所属</th>
+        <td class="col-10">{{ scout.trp_name }}</td>
+      </tr>
+      <tr class="row">
+        <th class="col-2" scope="row">経歴</th>
+        <td class="col-10">{{ was }}</td>
+      </tr>
+    </tbody>
+    <tfoot class="table-group-divider">
+      <tr class="row">
+        <td class="col-12">
+          <button type="button" class="btn btn-primary">修正</button>
+          <button type="button" class="btn btn-danger">削除</button>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
 </div>

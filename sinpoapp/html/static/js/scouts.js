@@ -21,11 +21,13 @@ async function changeView(id) {
 async function sendView(id) {
   let selected = [];
   const selectorBelong = document.getElementById("belongForm");
-  document.querySelectorAll("#waslist input").forEach((node) => {
+  document.querySelectorAll("#wasList input").forEach((node) => {
     if (node.checked) {
       selected.push(true);
+      console.log("Selected");
     } else {
       selected.push(false);
+      console.log("Fatal");
     }
   });
 

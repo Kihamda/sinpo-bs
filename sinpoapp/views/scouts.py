@@ -56,8 +56,43 @@ def scouts():
 
 @app.route("/scouts/<scoutId>", methods=["GET"])
 def scout(scoutId):
-    scout = Scouts.query.get(scoutId)
-    return render_template("scouts/scout.html", scout=scout)
+    scout = (
+        db.session.query(
+            Scouts,
+            Scouts.id,
+            Scouts.middle,
+            Scouts.name,
+            Troops.name.label("trp_name"),
+        )
+        .where(Scouts.id == scoutId)
+        .join(Troops, Troops.id == Scouts.belong)
+        .all()
+    )
+    scoutwas = (
+        db.session.query(
+            Scouts.wasbvs,
+            Scouts.wascs,
+            Scouts.wasbs,
+            Scouts.wasvs,
+            Scouts.wasrs,
+        )
+        .where(Scouts.id == scoutId)
+        .all()[0]
+    )
+    count = 1
+    txt = ""
+    for a in scoutwas:
+        if a:
+            txt = (
+                txt
+                + str(
+                    db.session.query(Troops.short).where(Troops.id == count).all()[0][0]
+                )
+                + ", "
+            )
+        count = count + 1
+
+    return render_template("scouts/scout.html", scout=scout[0], was=txt[:-2])
 
 
 @app.route("/scouts/create/<scoutId>", methods=["GET"])
