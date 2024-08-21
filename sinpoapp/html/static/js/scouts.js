@@ -19,21 +19,33 @@ async function changeView(id) {
 }
 
 async function sendView(id) {
+  let selected = [];
   const selectorBelong = document.getElementById("belongForm");
+  document.querySelectorAll("#waslist input").forEach((node) => {
+    if (node.checked) {
+      selected.push(true);
+    } else {
+      selected.push(false);
+    }
+  });
+
   const body = {
     id: id,
     middle: document.getElementById("inlineFormInputMiddle").value,
     name: document.getElementById("inlineFormInputName").value,
     belong: selectorBelong.options[selectorBelong.selectedIndex].value,
-    wasbvs: document.getElementById("BVSSelect"),
-    wascs: document.getElementById("CSSelect"),
-    wasbs: document.getElementById("BSSelect"),
-    wasvs: document.getElementById("VSSelect"),
-    wasrs: document.getElementById("RSSelect"),
+    wasbvs: selected[0],
+    wascs: selected[1],
+    wasbs: selected[2],
+    wasvs: selected[3],
+    wasrs: selected[4],
   };
   try {
-    const response = await fetch(`/scouts/${id}`, {
+    const response = await fetch(`/scouts`, {
       method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(body),
     });
     const data = await response.text();
@@ -72,7 +84,7 @@ function resizeTable() {
 window.addEventListener("DOMContentLoaded", () => {
   resizeTable();
   document.getElementById("sendForm").addEventListener("click", () => {
-    sendView();
+    sendView(document.getElementById("idscout").content);
   });
 });
 

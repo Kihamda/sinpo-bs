@@ -55,8 +55,8 @@
             {% for item in list %}
             <tr class="scouts">
               <th scope="row">{{item.id}}</th>
-              <td>{{item.name}}</td>
-              <td>{{item.belong}}</td>
+              <td>{{item.middle}} {{item.name}}</td>
+              <td>{{item.trp_name}}</td>
             </tr>
             {% endfor %}
             <tr
@@ -111,7 +111,12 @@
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
           閉じる
         </button>
-        <button type="button" class="btn btn-primary" id="sendForm">
+        <button
+          type="button"
+          class="btn btn-primary"
+          id="sendForm"
+          data-bs-dismiss="modal"
+        >
           保存
         </button>
       </div>

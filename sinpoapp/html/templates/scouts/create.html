@@ -1,4 +1,4 @@
-<meta id="idscout" value="{{ scoutid }}" />
+<meta id="idscout" content="{{ scoutid }}" />
 <form class="row g-3 align-items-center justify-content-center">
   <p class="text-center col-12 mb-0">名前</p>
 
@@ -26,23 +26,23 @@
   <div class="col-12 col-lg-6">
     <select class="form-select" id="belongForm">
       {% for i in trp %}
-      <option value="{{ i.short }}">{{ i.name }}</option>
+      <option value="{{ i.id }}">{{ i.name }}</option>
       {% endfor %}
     </select>
   </div>
 
   <p class="text-center col-12 mb-0">経歴</p>
-  <div class="d-flex flex-row flex-wrap justify-content-around">
+  <div class="d-flex flex-row flex-wrap justify-content-around" id="wasList">
     {% for i in trp %}
     <div class="form-check form-check-inline">
       <input
         type="checkbox"
         class="form-check-input"
-        id="{{ i.short }}Select"
-        value="{{ i.short }}"
+        id="{{ i.short }}Select2"
+        value="{{ i.id }}"
         checked=""
       />
-      <label for="{{ i.short }}Select" class="form-check-label"
+      <label for="{{ i.short }}Select2" class="form-check-label"
         >{{ i.name }}</label
       >
     </div>
