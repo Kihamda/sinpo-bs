@@ -1,7 +1,7 @@
 window.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll("tr.scouts").forEach((toggle) => {
     toggle.addEventListener("click", () => {
-      console.log("clicked " + toggle.children[0].textContent);
+      changeView(toggle.children[0].textContent);
     });
   });
 });
@@ -9,11 +9,47 @@ window.addEventListener("DOMContentLoaded", () => {
 async function changeView(id) {
   try {
     const response = await fetch(`/scouts/${id}`, {
-      method: "POST",
-      body: JSON.stringify(),
+      method: "get",
     });
-    const data = await response.json();
-    console.log(data);
+    const data = await response.text();
+    document.querySelector("#detailScout").innerHTML = data;
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
+
+async function sendView(id) {
+  const selectorBelong = document.getElementById("belongForm");
+  const body = {
+    id: id,
+    middle: document.getElementById("inlineFormInputMiddle").value,
+    name: document.getElementById("inlineFormInputName").value,
+    belong: selectorBelong.options[selectorBelong.selectedIndex].value,
+    wasbvs: document.getElementById("BVSSelect"),
+    wascs: document.getElementById("CSSelect"),
+    wasbs: document.getElementById("BSSelect"),
+    wasvs: document.getElementById("VSSelect"),
+    wasrs: document.getElementById("RSSelect"),
+  };
+  try {
+    const response = await fetch(`/scouts/${id}`, {
+      method: "post",
+      body: JSON.stringify(body),
+    });
+    const data = await response.text();
+    document.querySelector("#detailScout").innerHTML = data;
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
+
+async function editView(id) {
+  try {
+    const response = await fetch(`/scouts/create/${id}`, {
+      method: "get",
+    });
+    const data = await response.text();
+    document.querySelector("#editModalContent").innerHTML = data;
   } catch (error) {
     console.error("Error:", error);
   }
@@ -35,6 +71,9 @@ function resizeTable() {
 
 window.addEventListener("DOMContentLoaded", () => {
   resizeTable();
+  document.getElementById("sendForm").addEventListener("click", () => {
+    sendView();
+  });
 });
 
 window.onresize = resizeTable;

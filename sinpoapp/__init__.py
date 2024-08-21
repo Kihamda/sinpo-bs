@@ -8,5 +8,4 @@ db = SQLAlchemy(app)
 
 from .models import gino, graduate, scouts
 
-
 from sinpoapp.views import views, export, scouts

@@ -9,8 +9,7 @@ class Scouts(db.Model):
     )  # システムで使う番号
     middle = db.Column(db.String(255))  # 名字
     name = db.Column(db.String(255), nullable=False)  # 名前
-    born = db.Column(db.Date, nullable=False)  # 生年月日
-    belong = db.Column(db.Integer, nullable=False)  # 所属隊
+    belong = db.Column(db.Integer)  # 所属隊
     wasbvs = db.Column(db.Boolean, default=False, nullable=False)  # BVS経験
     wascs = db.Column(db.Boolean, default=False, nullable=False)  # CS経験
     wasbs = db.Column(db.Boolean, default=False, nullable=False)  # BS経験

@@ -1,0 +1,51 @@
+<meta id="idscout" value="{{ scoutid }}" />
+<form class="row g-3 align-items-center justify-content-center">
+  <p class="text-center col-12 mb-0">名前</p>
+
+  <div class="col-12 col-lg-6">
+    <input
+      type="text"
+      id="inlineFormInputMiddle"
+      class="form-control"
+      placeholder="名字"
+      value="{{ p.middle }}"
+    />
+  </div>
+  <div class="col-12 col-lg-6">
+    <div class="input-group">
+      <input
+        type="text"
+        class="form-control"
+        id="inlineFormInputName"
+        placeholder="名前"
+        value="{{ p.name }}"
+      />
+    </div>
+  </div>
+  <p class="text-center col-12 mb-0">現在の所属</p>
+  <div class="col-12 col-lg-6">
+    <select class="form-select" id="belongForm">
+      {% for i in trp %}
+      <option value="{{ i.short }}">{{ i.name }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <p class="text-center col-12 mb-0">経歴</p>
+  <div class="d-flex flex-row flex-wrap justify-content-around">
+    {% for i in trp %}
+    <div class="form-check form-check-inline">
+      <input
+        type="checkbox"
+        class="form-check-input"
+        id="{{ i.short }}Select"
+        value="{{ i.short }}"
+        checked=""
+      />
+      <label for="{{ i.short }}Select" class="form-check-label"
+        >{{ i.name }}</label
+      >
+    </div>
+    {% endfor %}
+  </div>
+</form>

@@ -25,56 +25,20 @@
         </div>
       </div>
       <div class="d-flex flex-row flex-wrap justify-content-around">
+        {% for i in trp %}
         <div class="form-check form-check-inline">
           <input
             type="checkbox"
             class="form-check-input"
-            id="bvsSelect"
-            value="bvs"
-            checked
+            id="{{ i.short }}Select"
+            value="{{ i.short }}"
+            checked=""
           />
-          <label for="bvsSelect" class="form-check-label">ビーバー隊</label>
+          <label for="{{ i.short }}Select" class="form-check-label"
+            >{{ i.name }}</label
+          >
         </div>
-        <div class="form-check form-check-inline">
-          <input
-            type="checkbox"
-            class="form-check-input"
-            id="cubSelect"
-            value="cs"
-            checked
-          />
-          <label for="cubSelect" class="form-check-label">カブ隊</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input
-            type="checkbox"
-            class="form-check-input"
-            id="boySelect"
-            value="bs"
-            checked
-          />
-          <label for="boySelect" class="form-check-label">ボーイ隊</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input
-            type="checkbox"
-            class="form-check-input"
-            id="vsSelect"
-            value="vs"
-            checked
-          />
-          <label for="vsSelect" class="form-check-label">ベンチャー隊</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input
-            type="checkbox"
-            class="form-check-input"
-            id="rsSelect"
-            value="rs"
-            checked
-          />
-          <label for="rsSelect" class="form-check-label">ローバー隊</label>
-        </div>
+        {% endfor %}
       </div>
     </div>
     <div class="card overflow-hidden" style="height: 70vh" id="table">
@@ -95,6 +59,16 @@
               <td>{{item.belong}}</td>
             </tr>
             {% endfor %}
+            <tr
+              id="createScout"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal"
+              onclick="editView('new')"
+            >
+              <th scope="row">#</th>
+              <td>新規作成</td>
+              <td></td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -103,10 +77,49 @@
   <div class="col-12 col-lg-6 d-flex">
     <div class="card fx1">
       <div class="card-body">
-        <h5 class="card-title">タイトル</h5>
-        <p class="card-text">スカウトの一覧です。</p>
+        <div id="detailScout">
+          <h5 class="card-title">タイトル</h5>
+          <p class="card-text">スカウトの一覧です。</p>
+        </div>
       </div>
     </div>
   </div>
 </div>
+
+<!-- モーダルの設定 -->
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+>
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="editModalLabel">編集</h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="閉じる"
+        ></button>
+      </div>
+      <div class="modal-body" id="editModalContent">
+        <p>モーダルのコンテンツ文。</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          閉じる
+        </button>
+        <button type="button" class="btn btn-primary" id="sendForm">
+          保存
+        </button>
+      </div>
+      <!-- /.modal-footer -->
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
 {% endblock %}
