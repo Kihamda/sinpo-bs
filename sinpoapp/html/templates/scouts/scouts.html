@@ -1,0 +1,130 @@
+{% extends "layout.html" %} {% block content %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static',filename = 'css/scouts.css') }}"
+  id="scouts"
+/>
+
+<script src="{{ url_for('static', filename='js/scouts.js') }}"></script>
+<div class="row justify-content-between fx1">
+  <div id="rightSide" class="col-12 col-lg-6 d-flex flex-column fx1">
+    <div class="card d-flex justify-content-center" id="selecter">
+      <div class="row">
+        <div class="col-8">
+          <input
+            type="name"
+            class="form-control"
+            id="exampleFormControlInput1"
+            placeholder="名前で検索"
+          />
+        </div>
+        <div class="col-4 d-grid gap-2">
+          <button type="button" class="btn btn-primary justify-content-end">
+            検索
+          </button>
+        </div>
+      </div>
+      <div class="d-flex flex-row flex-wrap justify-content-around">
+        {% for i in trp %}
+        <div class="form-check form-check-inline">
+          <input
+            type="checkbox"
+            class="form-check-input"
+            id="{{ i.short }}Select"
+            value="{{ i.short }}"
+            checked=""
+          />
+          <label for="{{ i.short }}Select" class="form-check-label"
+            >{{ i.name }}</label
+          >
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="card overflow-hidden" style="height: 70vh" id="table">
+      <div class="card-body overflow-auto">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th scope="col">名前</th>
+              <th scope="col">所属</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in list %}
+            <tr class="scouts">
+              <th scope="row">{{item.id}}</th>
+              <td>{{item.middle}} {{item.name}}</td>
+              <td>{{item.trp_name}}</td>
+            </tr>
+            {% endfor %}
+            <tr
+              id="createScout"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal"
+              onclick="editView('new')"
+            >
+              <th scope="row">#</th>
+              <td>新規作成</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div id="leftSide" class="col-12 col-lg-6 d-flex">
+    <div class="card fx1">
+      <div class="card-body fx1 d-flex overflow-auto">
+        <div id="detailScout" class="fx1">
+          <h5 class="card-title">タイトル</h5>
+          <p class="card-text">スカウトの一覧です。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- モーダルの設定 -->
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+>
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="editModalLabel">編集</h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="閉じる"
+        ></button>
+      </div>
+      <div class="modal-body" id="editModalContent">
+        <p>モーダルのコンテンツ文。</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          閉じる
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          id="sendForm"
+          data-bs-dismiss="modal"
+        >
+          保存
+        </button>
+      </div>
+      <!-- /.modal-footer -->
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+{% endblock %}
