@@ -41,6 +41,7 @@ async function sendView(id) {
     wasbs: selected[2],
     wasvs: selected[3],
     wasrs: selected[4],
+    memo: document.getElementById("memoarea").value,
   };
   try {
     const response = await fetch(`/scouts`, {
@@ -51,7 +52,6 @@ async function sendView(id) {
       body: JSON.stringify(body),
     });
     const data = await response.text();
-    document.querySelector("#detailScout").innerHTML = data;
   } catch (error) {
     console.error("Error:", error);
   }
@@ -81,6 +81,9 @@ function resizeTable() {
   let lsheight = document.querySelector("body").offsetHeight - otherheight - 80;
   if (lsheight < 500) lsheight = 500;
   item.style.height = lsheight + "px";
+
+  const detail = document.getElementById("rightSide");
+  document.getElementById("leftSide").style.height = detail.clientHeight + "px";
 }
 
 window.addEventListener("DOMContentLoaded", () => {

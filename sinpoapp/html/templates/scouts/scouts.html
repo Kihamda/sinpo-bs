@@ -7,7 +7,7 @@
 
 <script src="{{ url_for('static', filename='js/scouts.js') }}"></script>
 <div class="row justify-content-between fx1">
-  <div class="col-12 col-lg-6 d-flex flex-column fx1">
+  <div id="rightSide" class="col-12 col-lg-6 d-flex flex-column fx1">
     <div class="card d-flex justify-content-center" id="selecter">
       <div class="row">
         <div class="col-8">
@@ -74,9 +74,9 @@
       </div>
     </div>
   </div>
-  <div class="col-12 col-lg-6 d-flex">
+  <div id="leftSide" class="col-12 col-lg-6 d-flex">
     <div class="card fx1">
-      <div class="card-body fx1 d-flex">
+      <div class="card-body fx1 d-flex overflow-auto">
         <div id="detailScout" class="fx1">
           <h5 class="card-title">タイトル</h5>
           <p class="card-text">スカウトの一覧です。</p>
