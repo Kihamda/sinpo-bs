@@ -15,3 +15,7 @@ a.nodeco {
 .fx1 {
   flex: 1;
 }
+
+#copyright {
+  margin: 0;
+}
