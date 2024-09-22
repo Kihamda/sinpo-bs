@@ -1,11 +1,17 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { faGear, faQuestion } from "@fortawesome/free-solid-svg-icons";
+import { auth } from "../firebase/firebase";
 const Header = () => {
+  const nav = useNavigate();
+  const handleLogout = () => {
+    auth.signOut();
+    nav("/auth/login");
+  };
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary border-bottom border-bottom-dark fixed-top">
       <div className="container">
-        <NavLink className="navbar-brand fw-bold" to={"/"}>
+        <NavLink className="navbar-brand fw-bold" to={"/admin/"}>
           <svg
             id="_x31_0"
             xmlns="http://www.w3.org/2000/svg"
@@ -119,24 +125,29 @@ const Header = () => {
           <div className="offcanvas-body">
             <ul className="navbar-nav">
               <li className="nav-item" data-bs-dismiss="offcanvas">
-                <NavLink className="nav-link" to={"/scouts"}>
+                <NavLink className="nav-link" to={"/admin/scouts"}>
                   管理対象スカウト一覧
                 </NavLink>
               </li>
               <li className="nav-item" data-bs-dismiss="offcanvas">
-                <NavLink className="nav-link" to={"/lump"}>
+                <NavLink className="nav-link" to={"/admin/lump"}>
                   記録の一括操作
                 </NavLink>
               </li>
               <li className="nav-item" data-bs-dismiss="offcanvas">
-                <NavLink className="nav-link" to={"/export"}>
-                  記録の出力
+                <NavLink className="nav-link" to={"/admin/export"}>
+                  記録の共有
                 </NavLink>
               </li>
             </ul>
             <ul className="navbar-nav ms-auto d-none d-lg-flex">
               <li className="nav-item d-flex">
-                <NavLink className="nav-link" to={"/setting"}>
+                <button className="btn btn-primary" onClick={handleLogout}>
+                  ログアウト
+                </button>
+              </li>
+              <li className="nav-item d-flex">
+                <NavLink className="nav-link" to={"/admin/setting"}>
                   <FontAwesomeIcon icon={faGear} />
                 </NavLink>
               </li>
@@ -171,9 +182,6 @@ const Header = () => {
               </div>
 
               <div className="col-2">
-                <a className="nav-link" href="{{ url_for('help') }}">
-                  <i className="bi bi-question-lg"></i>
-                </a>
                 <NavLink className="nav-link" to={"/help"}>
                   <FontAwesomeIcon icon={faQuestion} />
                 </NavLink>
