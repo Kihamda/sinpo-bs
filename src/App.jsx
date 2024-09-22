@@ -1,18 +1,16 @@
 import { useState } from "react";
 import { Route, Routes } from "react-router";
-import Header from "./components/header";
-import Home from "./pages/Home";
-import Scouts from "./pages/scouts";
+import Land from "./pages/Land";
+import Admin from "./admin/admin";
+import Help from "./pages/help/help";
 function App() {
   return (
     <>
-      <Header />
-      <div className="container" style={{ paddingTop: "4.5rem" }}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/scouts" element={<Scouts />} />
-        </Routes>
-      </div>
+      <Routes>
+        <Route path="/" element={<Land />} />
+        <Route path="/help/*" element={<Help />} />
+        <Route path="/admin/*" element={<Admin />} />
+      </Routes>
     </>
   );
 }
