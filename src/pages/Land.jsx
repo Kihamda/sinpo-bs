@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const Land = () => {
   return (
     <div className="d-grid vh-100 justify-content-center align-content-center">
@@ -9,7 +11,9 @@ const Land = () => {
           <a href="mailto:work@kihamda.net">work@kihamda.net</a>
         </p>
         <div className="d-flex justify-content-center">
-          <button className="btn btn-primary">Get Started</button>
+          <Link to={"/auth/login"} className="btn btn-primary">
+            ログイン
+          </Link>
         </div>
       </div>
     </div>

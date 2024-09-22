@@ -1,16 +1,20 @@
-import { useState } from "react";
 import { Route, Routes } from "react-router";
 import Land from "./pages/Land";
 import Admin from "./admin/admin";
-import Help from "./pages/help/help";
+import Help from "./pages/help";
+import Auth from "./auth/auth";
+import { AuthProvider } from "./firebase/authContext";
 function App() {
   return (
     <>
-      <Routes>
-        <Route path="/" element={<Land />} />
-        <Route path="/help/*" element={<Help />} />
-        <Route path="/admin/*" element={<Admin />} />
-      </Routes>
+      <AuthProvider>
+        <Routes>
+          <Route path="/" element={<Land />} />
+          <Route path="/help/*" element={<Help />} />
+          <Route path="/admin/*" element={<Admin />} />
+          <Route path="/auth/*" element={<Auth />} />
+        </Routes>
+      </AuthProvider>
     </>
   );
 }

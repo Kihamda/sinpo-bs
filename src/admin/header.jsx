@@ -1,7 +1,13 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { faGear, faQuestion } from "@fortawesome/free-solid-svg-icons";
+import { auth } from "../firebase/firebase";
 const Header = () => {
+  const nav = useNavigate();
+  const handleLogout = () => {
+    auth.signOut();
+    nav("/auth/login");
+  };
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary border-bottom border-bottom-dark fixed-top">
       <div className="container">
@@ -135,6 +141,11 @@ const Header = () => {
               </li>
             </ul>
             <ul className="navbar-nav ms-auto d-none d-lg-flex">
+              <li className="nav-item d-flex">
+                <button className="btn btn-primary" onClick={handleLogout}>
+                  ログアウト
+                </button>
+              </li>
               <li className="nav-item d-flex">
                 <NavLink className="nav-link" to={"/admin/setting"}>
                   <FontAwesomeIcon icon={faGear} />
