@@ -1,40 +1,46 @@
 import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../firebase/firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { sendPasswordResetEmail } from "firebase/auth";
 
-const Viewer = () => {
+// パスワードリセット画面
+const Reset = () => {
   const nav = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
-    const { email, password } = event.target.elements;
-    signInWithEmailAndPassword(auth, email.value, password.value)
+    const { email } = event.target.elements;
+    sendPasswordResetEmail(auth, email.value)
       .then(() => {
-        nav("/admin/");
+        // メール送信成功
+        alert("パスワードリセットメールを送信しました");
+        nav("/auth/login");
       })
-      .catch(() => {
-        alert("メールアドレスかパスワードが間違っています");
+      .catch((error) => {
+        // メール送信失敗
+        console.log(error);
       });
   };
+
   return (
     <>
-      <h1>データ共有</h1>
+      <h1>パスワードのリセット</h1>
+      <p className="text-center">このフォームは管理者用です</p>
       <form className="mb-3" onSubmit={handleSubmit}>
         <div className="mb-3">
           <label htmlFor="username" className="form-label">
-            共有ID
+            メールアドレス
           </label>
           <input
             type="text"
             className="form-control"
             id="username"
-            placeholder="xxxxxxxxxxxxxxxxxxxxxxxx"
+            placeholder="xxx@example.com"
             name="email"
             required
           />
         </div>
         <div className="d-grid align-content-center justify-content-center">
           <button type="submit" className="btn btn-primary">
-            閲覧
+            リセットする
           </button>
         </div>
       </form>
@@ -46,11 +52,11 @@ const Viewer = () => {
           <Link to="/auth/signup">管理者：新規登録</Link>
         </p>
         <p>
-          <Link to="/auth/reset">管理者：パスワードリセット</Link>
+          <Link to="/auth/viewer">「データ共有」をされた方はこちら</Link>
         </p>
       </div>
     </>
   );
 };
 
-export default Viewer;
+export default Reset;
