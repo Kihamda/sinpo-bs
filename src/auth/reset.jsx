@@ -30,7 +30,7 @@ const Reset = () => {
             メールアドレス
           </label>
           <input
-            type="text"
+            type="email"
             className="form-control"
             id="username"
             placeholder="xxx@example.com"

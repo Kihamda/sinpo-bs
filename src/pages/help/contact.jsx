@@ -24,14 +24,14 @@ const Contact = () => {
   };
 
   return (
-    <div className="vh-100 d-flex flex-wrap justify-content-center align-content-center container">
+    <div
+      className="vh-100 d-flex flex-wrap justify-content-center align-content-center container"
+      style={{ maxWidth: "800px" }}
+    >
       <div className="card w-100">
         {isSent ? (
           <div className="card-body d-grid justify-content-center align-content-center">
             <h3 className="mt-5 mb-5">フォームを送信しました</h3>
-            <Link to="/" className="text-center">
-              トップページに戻る
-            </Link>
           </div>
         ) : (
           <div className="card-body">
@@ -90,6 +90,9 @@ const Contact = () => {
             </form>
           </div>
         )}
+        <Link to="/" className="text-center">
+          トップページに戻る
+        </Link>
       </div>
     </div>
   );

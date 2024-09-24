@@ -38,7 +38,7 @@ const Signup = () => {
             メールアドレス
           </label>
           <input
-            type="text"
+            type="email"
             className="form-control"
             id="usermail"
             placeholder="xxx@example.com"

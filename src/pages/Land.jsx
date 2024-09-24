@@ -1,6 +1,7 @@
 import { Link, Route, Routes, Navigate, useLocation } from "react-router-dom";
-import Auth from "../auth/auth";
+
 import { useEffect, useState } from "react";
+import Auth from "../auth/auth";
 
 const Land = () => {
   return (
@@ -29,7 +30,6 @@ const Top = () => {
       setBlur(10);
     }
   }, [locate]);
-
   return (
     <div
       className="vw-100 vh-100"
@@ -42,7 +42,8 @@ const Top = () => {
         className="vh-100 d-flex flex-wrap justify-content-center align-content-center "
         style={{
           backdropFilter: `blur(${blur}px)`,
-          transition: "ease-in-out 0.2s",
+          transition: "ease-in-out 1s",
+          transitionProperty: "backdrop-filter",
         }}
       >
         <div
