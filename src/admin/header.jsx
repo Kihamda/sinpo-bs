@@ -126,7 +126,7 @@ const Header = () => {
             <ul className="navbar-nav">
               <li className="nav-item" data-bs-dismiss="offcanvas">
                 <NavLink className="nav-link" to={"/admin/scouts"}>
-                  管理対象スカウト一覧
+                  スカウト詳細検索
                 </NavLink>
               </li>
               <li className="nav-item" data-bs-dismiss="offcanvas">
