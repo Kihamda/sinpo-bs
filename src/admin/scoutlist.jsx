@@ -29,11 +29,7 @@ const ScoutsList = memo(({ filter }) => {
           <tr key={scout.id}>
             <td>{scout.firstname + " " + scout.lastname}</td>
             <td>{scout.belong}</td>
-            <td>
-              {scout.comment.length > 8
-                ? String(scout.comment).slice(0, 5) + "…"
-                : scout.comment}
-            </td>
+            <td>{scout.comment}</td>
             <td>
               <button
                 className="btn btn-primary"

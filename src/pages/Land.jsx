@@ -32,7 +32,7 @@ const Top = () => {
   }, [locate]);
   return (
     <div
-      className="vw-100 vh-100"
+      className="vw-100 vh-100 justify-content-center "
       style={{
         backgroundImage: "url(/bg.webp)",
         backgroundSize: "cover",
@@ -47,16 +47,18 @@ const Top = () => {
         }}
       >
         <div
-          className="container d-flex flex-wrap justify-content-center align-content-center"
-          style={{ maxWidth: "700px", minHeight: "75%" }}
+          className="row justify-content-center w-100"
+          style={{ minHeight: "75%" }}
         >
-          <div className="card w-100 h-100">
-            <div className="card-body d-flex flex-wrap justify-content-center align-content-center">
-              <Routes>
-                <Route path="/" element={<Land />} />
-                <Route path="/auth/*" element={<Auth />} />
-                <Route path="*" element={<Navigate to={"/"} />} />
-              </Routes>
+          <div className="col-12 col-lg-6 col-md-8 col-xxl-4 container d-flex flex-wrap justify-content-center align-content-center">
+            <div className="card w-100 h-100">
+              <div className="card-body d-flex flex-wrap justify-content-center align-content-center">
+                <Routes>
+                  <Route path="/" element={<Land />} />
+                  <Route path="/auth/*" element={<Auth />} />
+                  <Route path="*" element={<Navigate to={"/"} />} />
+                </Routes>
+              </div>
             </div>
           </div>
         </div>

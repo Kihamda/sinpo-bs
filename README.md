@@ -36,7 +36,7 @@
         |   - [history]                       ；各隊の経歴
         |   |   - "bvs"：                     ；どの隊についてか
         |   |   |   - joined: yyyy/mm/dd,     ；上進日時
-        |   |   |   - exited: yyyy/mm/dd,     ；
+        |   |   |   - exited: yyyy/mm/dd,     ；退出日時
         |   |
         |   |   - cs
         |   |   - bs

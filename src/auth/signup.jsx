@@ -18,7 +18,11 @@ const Signup = () => {
   return (
     <>
       <h1>新規登録</h1>
-      <p className="text-center">このフォームは管理者用です</p>
+      <p className="text-center">
+        このフォームは管理者用です
+        <br />
+        ここで登録の後、他の管理者の承諾を得てから本登録されます
+      </p>
       <form className="mb-3" onSubmit={handleSubmit}>
         <div className="mb-3">
           <label htmlFor="username" className="form-label">

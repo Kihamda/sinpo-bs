@@ -4,36 +4,47 @@ import ScoutsList from "./scoutlist";
 const Scouts = () => {
   const [filter, setFilter] = useState();
   return (
-    <div className="row justify-content-between h-100">
-      <div className="col-lg-6 col-12 mb-3">
+    <div className="row justify-content-center h-100">
+      <div className="col-12 col-lg-10 mb-3">
         <div className="card h-100">
           <div className="card-body">
             <h3 className="card-title text-center">検索フォーム</h3>
-            <p className="card-text">
-              <strong>Top 3 Scouts:</strong>
-            </p>
-            <ul className="list-group">
-              <li className="list-group-item">
-                <strong>1st Place:</strong> John Doe
-              </li>
-              <li className="list-group-item">
-                <strong>2nd Place:</strong> Jane Smith
-              </li>
-              <li className="list-group-item">
-                <strong>3rd Place:</strong> Alice Johnson
-              </li>
-            </ul>
+            <div className="row">
+              <div className="col-sm-6 col-md-4 col-lg-3">
+                <label htmlFor="name" className="form-label">
+                  名前
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="name"
+                  placeholder="氏名で検索"
+                  onChange={(e) => setFilter({ name: e.target.value })}
+                />
+              </div>
+              <div className="col-sm-6 col-md-4 col-lg-3">
+                <label htmlFor="grade" className="form-label">
+                  学年
+                </label>
+                <input
+                  type="number"
+                  className="form-control"
+                  id="grade"
+                  placeholder="学年で検索"
+                  onChange={(e) =>
+                    setFilter({ grade: parseInt(e.target.value) })
+                  }
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <div className="col-lg-6 col-12 mb-3">
+      <div className="col-12 col-lg-10 mb-3">
         <div className="card h-100">
           <div className="card-body">
             <h3 className="card-title text-center">検索結果</h3>
-            <div
-              className="mt-auto"
-              style={{ overflowY: "auto", height: "70vh" }}
-            >
+            <div className="flex-grow-1" style={{ overflowY: "auto" }}>
               <ScoutsList filter={filter} />
             </div>
           </div>
