@@ -6,7 +6,7 @@ import Auth from "../auth/auth";
 const Land = () => {
   return (
     <div className="justify-content-center d-flex flex-column text-center">
-      <h1>電子式進歩記録帳</h1>
+      <h1>電子進歩壁掛け表</h1>
       <p>ボーイスカウト吹田9団専用システム</p>
       <p>
         <Link to="/help/contact">連絡はこちらまで</Link>
