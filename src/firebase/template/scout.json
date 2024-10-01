@@ -1,0 +1,20 @@
+{
+  "name": null,
+  "experienced": {
+    "BVS": {
+      "exp": true,
+      "joined": null,
+      "exited": null
+    },
+    "CS": {
+      "exp": true,
+      "joined": null,
+      "exited": null
+    },
+    "BS": {
+      "exp": true,
+      "joined": null,
+      "exited": null
+    }
+  }
+}

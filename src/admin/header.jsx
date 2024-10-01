@@ -126,7 +126,7 @@ const Header = () => {
             <ul className="navbar-nav">
               <li className="nav-item" data-bs-dismiss="offcanvas">
                 <NavLink className="nav-link" to={"/admin/scouts"}>
-                  管理対象スカウト一覧
+                  スカウト詳細検索
                 </NavLink>
               </li>
               <li className="nav-item" data-bs-dismiss="offcanvas">
@@ -135,7 +135,7 @@ const Header = () => {
                 </NavLink>
               </li>
               <li className="nav-item" data-bs-dismiss="offcanvas">
-                <NavLink className="nav-link" to={"/admin/export"}>
+                <NavLink className="nav-link" to={"/admin/share"}>
                   記録の共有
                 </NavLink>
               </li>
@@ -159,6 +159,11 @@ const Header = () => {
             </ul>
           </div>
           <div className="offcanvas-footer d-lg-none text-center">
+            <div className="d-grid align-contet-center justify-content-center mb-3">
+              <button className="btn btn-primary" onClick={handleLogout}>
+                ログアウト
+              </button>
+            </div>
             <div className="row">
               <div className="col-2">
                 <a className="nav-link" href="{{ url_for('settings') }}">
@@ -172,8 +177,8 @@ const Header = () => {
                 <p>
                   Copyright © 2024
                   <a
-                    className="nodeco"
-                    href="https://kihamda.github.io/"
+                    className="noAtag ms-3"
+                    href="https://kihamda.net/"
                     target="_blank"
                   >
                     Dai.M

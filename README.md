@@ -1,8 +1,62 @@
-# React + Vite
+# 電子式進歩記録帳
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+このソフトウェアは Firebase hosting にデプロイすることを前提に作っています。
 
-Currently, two official plugins are available:
+## GitHub 関係
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- `github\workflows\main.yaml`に GitHub Action 用の色々が入っています。
+- 実際にデプロイするときは開発環境で`npm install firebase-tools`をちゃんと入れて`firebase init`するほうがいいと思います
+
+## Firestore 関連
+
+各コレクションごとに`firebase\template\{コレクション名}.json`がテンプレートとして用意されています
+
+- 凡例
+
+  - [コレクション名]
+  - {可変部分の説明}
+  - "ドキュメント名"
+  - レコードのキー：データ
+  - ；説明
+
+- データ構造
+
+  - ```
+    [scouts]                                  ；各スカウトに関する情報を格納
+        - "{ id (random) }"                   ；各スカウトの識別子
+        |   - [took]                          ；取得した技能賞
+        |   |   - "{id (random) }"            ；各取得した技能賞ごとの識別子
+        |   |   |   - kind                    ；-取得した技能賞の種類（参照）
+        |   |   |   - date                    ；-技能賞を取得した日付
+        |   |   |   - examiner                ；-考査員の名前
+        |   |   |   - comment                 ；-技能賞取得にあたってのコメント
+        |   |
+        |   |   - 沢山・・・
+        |   |
+        |   - [history]                       ；各隊の経歴
+        |   |   - "bvs"：                     ；どの隊についてか
+        |   |   |   - joined: yyyy/mm/dd,     ；上進日時
+        |   |   |   - exited: yyyy/mm/dd,     ；退出日時
+        |   |
+        |   |   - cs
+        |   |   - bs
+        |   |   - vs
+        |   |   - rs
+        |   |
+        |   - [event]
+        |   |   - declare
+
+    [settings]
+      - { uid }
+        |   - name : 佐藤花子
+        |
+
+
+    [shares]
+      - { id (random) }
+        - < ref > (scouts/{ id })
+    ```
+
+```
+
+```
