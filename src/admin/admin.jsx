@@ -16,12 +16,12 @@ const Admin = () => {
         <Header username={userName} />
         <div className="container vh-100" style={{ paddingTop: "4.5rem" }}>
           <div className="row justify-content-center">
-            <div className="col-lg-10 col-12">
+            <div className="col-xl-10 col-12">
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/scouts" element={<Scouts />} />
                 <Route path="/share/*" element={<Share />} />
-                <Route path="/detail/*" element={<Detail />} />
+                <Route path="/scouts/:id" element={<Detail />} />
               </Routes>
             </div>
           </div>

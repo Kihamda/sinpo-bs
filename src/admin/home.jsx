@@ -8,7 +8,7 @@ const Home = () => {
           <div className="card-header">新規作成</div>
           <div className="card-body d-flex flex-flow text-center">
             <Link
-              to="/admin/detail/new"
+              to="/admin/scouts/new"
               className="btn btn-primary flex-grow-1"
             >
               スカウトの新規作成

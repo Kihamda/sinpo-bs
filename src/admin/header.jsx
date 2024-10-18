@@ -93,7 +93,7 @@ const Header = ({ username }) => {
               ></path>
             </g>
           </svg>
-          進歩壁掛け表
+          My History
         </NavLink>
 
         <button
@@ -126,11 +126,6 @@ const Header = ({ username }) => {
               <li className="nav-item" data-bs-dismiss="offcanvas">
                 <NavLink className="nav-link" to={"/admin/scouts"}>
                   スカウト詳細検索
-                </NavLink>
-              </li>
-              <li className="nav-item" data-bs-dismiss="offcanvas">
-                <NavLink className="nav-link" to={"/admin/lump"}>
-                  記録の一括操作
                 </NavLink>
               </li>
               <li className="nav-item" data-bs-dismiss="offcanvas">

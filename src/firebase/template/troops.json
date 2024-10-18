@@ -2,26 +2,49 @@
   {
     "id": 1,
     "name": "ビーバー隊",
-    "short": "BVS"
+    "short": "BVS",
+    "graduation": [{ "name": "ビーバー" }, { "name": "ビッグビーバー" }],
+    "events": []
   },
   {
     "id": 2,
     "name": "カブ隊",
-    "short": "CS"
+    "short": "CS",
+    "graduation": [
+      { "name": "うさぎ" },
+      { "name": "しか" },
+      { "name": "くま" }
+    ],
+    "events": []
   },
   {
     "id": 3,
     "name": "ボーイ隊",
-    "short": "BS"
+    "short": "BS",
+    "graduation": [
+      { "name": "初級章" },
+      { "name": "二級章" },
+      { "name": "一級章" },
+      { "name": "菊章" }
+    ],
+    "events": []
   },
   {
     "id": 4,
     "name": "ベンチャー隊",
-    "short": "VS"
+    "short": "VS",
+    "graduation": [
+      { "name": "ベンチャー章" },
+      { "name": "隼章" },
+      { "name": "富士章" }
+    ],
+    "events": []
   },
   {
     "id": 5,
     "name": "ローバー隊",
-    "short": "RS"
+    "short": "RS",
+    "graduation": [],
+    "events": []
   }
 ]
