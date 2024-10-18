@@ -2,9 +2,19 @@ import { useEffect, useState } from "react";
 import troop from "../firebase/template/troops.json";
 import { db } from "./../firebase/firebase";
 import { collection, getDocs } from "firebase/firestore";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 const Scouts = () => {
-  const [filter, setFilter] = useState();
+  const [filter, setFilter] = useState({
+    name: "",
+    mode: 0,
+    troops: {
+      BVS: true,
+      CS: true,
+      BS: true,
+      VS: true,
+      RS: true,
+    },
+  });
   const [scouts, setScouts] = useState([]);
   const nav = useNavigate();
 
@@ -19,8 +29,52 @@ const Scouts = () => {
     });
   }, []);
 
+  const isInFilter = (scout) => {
+    let isAllowed = false;
+    if (
+      String(scout.firstname + scout.lastname).includes(filter.name) ||
+      (scout = "")
+    ) {
+      if (filter.mode == 0) {
+        Object.keys(filter.troops).forEach((e) => {
+          if (filter.troops[e] && scout.belong == e) {
+            console.log(scout);
+            isAllowed = true;
+          }
+        });
+      } else if (filter.mode == 1) {
+        Object.keys(filter.troops).forEach((e) => {
+          if (filter.troops[e] && scout.belong == e) {
+            console.log(e);
+            isAllowed = true;
+          }
+        });
+      } else if (filter.mode == 2) {
+        Object.keys(filter.troops).forEach((e) => {
+          if (filter.troops[e] && scout.belong == e) {
+            console.log(e);
+            isAllowed = true;
+          }
+        });
+      }
+      return isAllowed;
+    }
+  };
+
   return (
     <>
+      <div className="mb-3">
+        <div className="card">
+          <div className="card-body d-flex">
+            <h3 className="card-title text-center">スカウト一覧</h3>
+            <div className="d-flex ms-auto">
+              <Link className="btn btn-primary" to="/admin/scouts/new">
+                スカウトの記録の新規作成
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
       <div className="mb-3">
         <div className="card">
           <div className="card-body">
@@ -35,7 +89,10 @@ const Scouts = () => {
                   className="form-control"
                   id="name"
                   placeholder="氏名で検索"
-                  onChange={(e) => setFilter({ name: e.target.value })}
+                  value={filter.name}
+                  onChange={(e) =>
+                    setFilter({ ...filter, name: e.target.value })
+                  }
                 />
               </div>
               <div className="col-6 col-lg-4 d-flex flex-column">
@@ -55,6 +112,16 @@ const Scouts = () => {
                           className="form-check-input"
                           id={`inlineCheckbox${i.short}`}
                           value={i.short}
+                          checked={filter.troops[i.short]}
+                          onChange={(e) => {
+                            setFilter({
+                              ...filter,
+                              troops: {
+                                ...filter.troops,
+                                [e.target.value]: e.target.checked,
+                              },
+                            });
+                          }}
                         />
                         <label
                           htmlFor={`inlineCheckbox${i.short}`}
@@ -69,7 +136,16 @@ const Scouts = () => {
               </div>
               <div className="col-6  col-lg-4" id="group">
                 <label htmlFor="group">条件</label>
-                <select className="form-select">
+                <select
+                  className="form-select"
+                  value={filter.mode}
+                  onChange={(e) => {
+                    setFilter({
+                      ...filter,
+                      mode: e.target.value,
+                    });
+                  }}
+                >
                   <option value="0">に現在、所属する</option>
                   <option value="1">に過去、所属した</option>
                   <option value="2">に過去または現在、所属する</option>
@@ -94,16 +170,18 @@ const Scouts = () => {
                 </thead>
                 <tbody>
                   {scouts.map((scout) => {
-                    return (
-                      <tr
-                        key={scout.id}
-                        onClick={() => nav(`/admin/detail/${scout.id}`)}
-                      >
-                        <td>{scout.firstname + " " + scout.lastname}</td>
-                        <td>{scout.belong}</td>
-                        <td>{scout.comment}</td>
-                      </tr>
-                    );
+                    if (isInFilter(scout)) {
+                      return (
+                        <tr
+                          key={scout.id}
+                          onClick={() => nav(`/admin/scouts/${scout.id}`)}
+                        >
+                          <td>{scout.firstname + " " + scout.lastname}</td>
+                          <td>{scout.belong}</td>
+                          <td>{scout.comment}</td>
+                        </tr>
+                      );
+                    }
                   })}
                 </tbody>
               </table>

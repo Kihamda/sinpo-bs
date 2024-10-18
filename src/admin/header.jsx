@@ -1,9 +1,8 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { faGear, faQuestion } from "@fortawesome/free-solid-svg-icons";
 import { auth } from "../firebase/firebase";
-const Header = () => {
-  const nav = useNavigate();
+const Header = ({ username }) => {
   const handleLogout = () => {
     auth.signOut();
     nav("/auth/login");
@@ -94,7 +93,7 @@ const Header = () => {
               ></path>
             </g>
           </svg>
-          進歩壁掛け表
+          My History
         </NavLink>
 
         <button
@@ -130,17 +129,15 @@ const Header = () => {
                 </NavLink>
               </li>
               <li className="nav-item" data-bs-dismiss="offcanvas">
-                <NavLink className="nav-link" to={"/admin/lump"}>
-                  記録の一括操作
-                </NavLink>
-              </li>
-              <li className="nav-item" data-bs-dismiss="offcanvas">
                 <NavLink className="nav-link" to={"/admin/share"}>
                   記録の共有
                 </NavLink>
               </li>
             </ul>
             <ul className="navbar-nav ms-auto d-none d-lg-flex">
+              <span className="d-grid align-content-center me-3">
+                {username + " さん"}
+              </span>
               <li className="nav-item d-flex">
                 <button className="btn btn-primary" onClick={handleLogout}>
                   ログアウト
@@ -160,6 +157,7 @@ const Header = () => {
           </div>
           <div className="offcanvas-footer d-lg-none text-center">
             <div className="d-grid align-contet-center justify-content-center mb-3">
+              <span>{username + " さん"}</span>
               <button className="btn btn-primary" onClick={handleLogout}>
                 ログアウト
               </button>

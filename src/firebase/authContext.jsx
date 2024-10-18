@@ -1,5 +1,6 @@
 import { createContext, useState, useContext, useEffect } from "react";
-import { auth } from "./firebase";
+import { auth, db } from "./firebase";
+import { doc, getDoc } from "firebase/firestore";
 
 const AuthContext = createContext();
 
@@ -9,10 +10,12 @@ export function useAuthContext() {
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState("");
+  const [userName, setUserName] = useState("");
   const [loading, setLoading] = useState(true);
 
   const value = {
     user,
+    userName,
     loading,
   };
 
@@ -20,6 +23,9 @@ export function AuthProvider({ children }) {
     const unsubscribed = auth.onAuthStateChanged((user) => {
       setUser(user);
       setLoading(false);
+      getDoc(doc(db, "users", user.uid)).then((auser) => {
+        setUserName(auser.data().name);
+      });
     });
     return () => {
       unsubscribed();
@@ -28,8 +34,13 @@ export function AuthProvider({ children }) {
 
   if (loading) {
     return (
-      <div className="d-grid vh-100 justify-content-center align-content-center">
-        <h5>Loading...</h5>
+      <div className="d-flex vh-100 justify-content-center align-content-center flex-column">
+        <div className="d-flex justify-content-center">
+          <div className="spinner-border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+        </div>
+        <h5 className="mt-3 text-center">Loading</h5>
       </div>
     );
   } else {
