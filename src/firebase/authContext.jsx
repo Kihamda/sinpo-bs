@@ -12,11 +12,13 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState("");
   const [userName, setUserName] = useState("");
   const [loading, setLoading] = useState(true);
+  const [role, setRole] = useState("");
 
   const value = {
     user,
     userName,
     loading,
+    role,
   };
 
   useEffect(() => {
@@ -25,6 +27,7 @@ export function AuthProvider({ children }) {
       setLoading(false);
       getDoc(doc(db, "users", user.uid)).then((auser) => {
         setUserName(auser.data().name);
+        setRole(auser.data().role);
       });
     });
     return () => {

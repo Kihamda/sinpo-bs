@@ -1,25 +1,17 @@
-//設定画面でイベントを描画する
+//詳細画面での進級過程表示
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { getTroopsListShorted } from "../../firebase/template/setting";
 import { getFormattedDate } from "../../firebase/tools";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../../firebase/firebase";
 
-const Events = () => {
+const Graduation = () => {
   //タブ管理用
   const [tab, setTab] = useState("GEN");
-
-  //Firestoreの該当スカウトデータの子コレクション「events」を取得
-  const [events, setEvents] = useState([]);
-  useEffect(() => {
-    getDocs(collection(db));
-  }, []);
 
   return (
     <div className="card">
       <div className="card-body">
-        <h4 className="text-center">その他のイベント</h4>
+        <h4 className="text-center">進級記録</h4>
         <ul className="nav nav-tabs justify-content-center">
           <li className="nav-item">
             <span
@@ -59,7 +51,7 @@ const Events = () => {
               {person &&
                 person.history &&
                 person.history[tab] &&
-                person.history[tab].events.map((e, index) => {
+                person.history[tab].graduation.map((e, index) => {
                   return (
                     <div className="form-group justify-content-center">
                       <label className="form-label">{e.name}</label>
@@ -68,8 +60,7 @@ const Events = () => {
                         type="date"
                         disabled={disableEdit}
                         value={
-                          e.finished &&
-                          getFormattedDate(new Date(e.finished * 1000))
+                          e.finished && getFormattedDate(new Date(e.finished))
                         }
                         onChange={(e) => {
                           setPerson({
@@ -78,14 +69,14 @@ const Events = () => {
                               ...person.history,
                               [tab]: {
                                 ...person.history[tab],
-                                events: person.history[tab].events.map(
+                                graduation: person.history[tab].graduation.map(
                                   (f, ind) => {
                                     return ind === index
                                       ? {
                                           ...f,
-                                          finished:
-                                            new Date(e.target.value).getTime() /
-                                            1000,
+                                          finished: new Date(
+                                            e.target.value
+                                          ).getTime(),
                                         }
                                       : f;
                                   }
@@ -93,6 +84,8 @@ const Events = () => {
                               },
                             },
                           });
+                          person.history[tab].graduation[index].finished =
+                            new Date(e.target.value);
                         }}
                       />
                     </div>
@@ -106,4 +99,4 @@ const Events = () => {
   );
 };
 
-export default Events;
+export default Graduation;

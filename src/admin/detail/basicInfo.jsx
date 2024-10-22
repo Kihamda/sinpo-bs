@@ -1,25 +1,12 @@
-import { useEffect, useState } from "react";
-// 説明：detailからrel(ユーザーID)とdisabledの状態をもらって描画
-const BasicInfo = ({ rel }) => {
-  const [person, setPerson] = useState({});
+import { useContext } from "react";
+import { PersonContext } from "./personContext";
+import troop from "../../firebase/template/troops.json";
 
+// 説明：詳細画面の基本情報(personに入っている)状態をもらって描画
+const BasicInfo = () => {
   //データを保存する
-  const handleSave = (e) => {
-    e.preventDefault();
-    if (!disableEdit) {
-      if (path == "new") {
-        setDoc(doc(collection(db, "scouts")), person).then(() => {
-          alert("保存しました");
-          nav("/admin/scouts");
-        });
-      } else {
-        setDoc(doc(db, "scouts", path), person).then(() => {
-          alert("保存しました");
-          setDisableEdit(true);
-        });
-      }
-    }
-  };
+  const context = useContext(PersonContext);
+  const { person, disableEdit, setPerson } = context;
 
   return (
     <div className="card mb-3">
