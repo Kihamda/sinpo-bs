@@ -46,10 +46,11 @@
         |   - [event]
         |   |   - declare
 
-    [settings]
+    [users]
       - { uid }
-        |   - name : 佐藤花子
-        |
+        |   - name    : 佐藤花子
+        |   - belong  : xxxxxxxxxxxxx          ；所属グループ
+        |   - role    :
 
 
     [shares]
