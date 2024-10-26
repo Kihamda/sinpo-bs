@@ -1,42 +1,80 @@
 import { useContext, useEffect, useState } from "react";
 import troop from "../../firebase/template/troops.json";
 import { FormContext } from "./formContext";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../../firebase/firebase";
-import { getDefaultScoutDataForm } from "../../firebase/template/setting";
+import {
+  getDefaultScoutDataForm,
+  getTroopsListShorted,
+} from "../../firebase/template/setting";
+import { useNavigate } from "react-router-dom";
 
 // 説明：uid取得してその内容をDBに問い合わせて描画
 const BasicInfo = () => {
-  const [person, setPerson] = useState("");
-  const [defaultPerson, setDefaultPerson] = useState("");
+  //データ保管用
+  const [person, setPerson] = useState(getDefaultScoutDataForm());
 
-  const { uid, setUserName, setIsNew, setDisableEdit } =
-    useContext(FormContext);
+  //編集済みフラグ
+  const [edited, setEdited] = useState(false);
+
+  //ページ遷移用
+  const nav = useNavigate();
+
+  const {
+    uid,
+    setUserName,
+    setIsNew,
+    setDisableEdit,
+    disableEdit,
+    isNew,
+    belonged,
+    setBelonged,
+  } = useContext(FormContext);
 
   //データを保存する関数
   const savePerson = () => {
     // ここにpersonを保存する処理を記述する
-    setDoc(doc(db, "scouts", uid), person).then(
-      () => console.log("Document successfully written!"),
-      (error) => console.error("Error writing document: ", error)
-    );
+    if (isNew) {
+      //新規作成ならaddDoc
+      addDoc(collection(db, "scouts"), person).then(
+        (docs) => {
+          console.log("Document successfully written!" + docs.id);
+          nav("/admin/scouts/" + docs.id);
+        },
+        (error) => console.error("Error writing document: ", error)
+      );
+      setDisableEdit(true); // 新規登録時は編集不可にする
+      setIsNew(false); // 新規登録時は新規登録ではない
+    } else {
+      // 既存データならsetDoc
+      setDoc(doc(db, "scouts", uid), person).then(
+        () => console.log("Document successfully written!"),
+        (error) => console.error("Error writing document: ", error)
+      );
+    }
   };
 
   // uidが取得できたらDBからpersonデータを読み出す
   const loadPerson = () => {
     getDoc(doc(db, "scouts", uid))
       .then((doc) => {
-        if (doc.exists) {
+        if (doc.data()) {
+          //データstate保存時に起きる処理
           const data = doc.data();
+          let tmp = {};
+          getTroopsListShorted().forEach((e) => {
+            tmp[e] = data.history[e];
+          });
           setPerson(data);
-          setDefaultPerson(data); // 初期表示用に保持しておく
+          //setDefaultPerson(data); // 初期表示用に保持しておく 追記：没
           setUserName(data.firstname + " " + data.lastname); //名前表示
           setIsNew(false); // 取得できた時は新規登録ではない
+          setBelonged(tmp);
+          setEdited(false);
           console.log("Document was found!");
         } else {
-          console.log("No such document!");
-          setPerson(getDefaultScoutDataForm());
           setDisableEdit(false);
+          console.log("No such document!");
         }
       })
       .catch((error) => {
@@ -44,14 +82,16 @@ const BasicInfo = () => {
       });
   };
 
+  // uidが変わったら読み出し直す
   useEffect(() => {
-    // uidが変わったら読み出し直す
     if (uid) {
       loadPerson();
     }
+    //初回編集ならフラグを立てる
+    if (!edited) {
+      setEdited(true);
+    }
   }, [uid]);
-
-  const { disableEdit } = useContext(FormContext);
 
   return (
     <form
@@ -148,25 +188,21 @@ const BasicInfo = () => {
                           disabled={disableEdit}
                           value={i.short}
                           checked={
-                            person &&
-                            person.history &&
-                            person.history[i.short] &&
-                            person.history[i.short].exp
+                            person && person.history && person.history[i.short]
                           }
                           onChange={(e) => {
                             setPerson({
                               ...person,
                               history: {
                                 ...person.history,
-                                [i.short]: {
-                                  ...person.history[i.short],
-                                  exp: e.target.checked,
-                                },
+                                [i.short]: e.target.checked,
                               },
                             });
-                            if (i.short == tabNum && !e.target.checked) {
-                              setTabnum("GEN");
-                            }
+
+                            setBelonged({
+                              ...belonged,
+                              [i.short]: e.target.checked,
+                            });
                           }}
                         />
                         <label
@@ -200,13 +236,11 @@ const BasicInfo = () => {
           </div>
         </div>
         <div className="card-footer d-flex justify-content-end">
-          <button className="btn btn-primary">保存</button>
-          <button
-            className="btn btn-secondary ms-2"
-            onClick={() => setTabNum("GEN")}
-          >
-            変更を戻す
-          </button>
+          {edited ? (
+            <button className="btn btn-primary">保存</button>
+          ) : (
+            <span>変更がありません</span>
+          )}
         </div>
       </div>
     </form>

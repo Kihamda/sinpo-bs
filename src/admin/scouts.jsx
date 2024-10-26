@@ -65,9 +65,9 @@ const Scouts = () => {
     <>
       <div className="mb-3">
         <div className="card">
-          <div className="card-body d-flex">
+          <div className="card-body d-flex align-content-center flex-wrap">
             <h3 className="card-title text-center">スカウト一覧</h3>
-            <div className="d-flex ms-auto">
+            <div className="ms-auto">
               <Link className="btn btn-primary" to="/admin/scouts/new">
                 スカウトの記録の新規作成
               </Link>

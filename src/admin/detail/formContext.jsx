@@ -11,6 +11,7 @@ export const FormProvider = ({ children, uid }) => {
   const [noExit, setNoExit] = useState(false); //退出不可フラグ
   const [isNew, setIsNew] = useState(true); //新規データフラグ
 
+  const [belonged, setBelonged] = useState([]); //所属経歴
   const [userName, setUserName] = useState(""); //ユーザー名表示
 
   // Context用
@@ -23,6 +24,8 @@ export const FormProvider = ({ children, uid }) => {
     setUserName,
     noExit,
     setNoExit,
+    belonged,
+    setBelonged,
     uid,
   };
   return <FormContext.Provider value={value}>{children}</FormContext.Provider>;

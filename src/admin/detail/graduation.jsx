@@ -1,11 +1,38 @@
 //詳細画面での進級過程表示
-import { useState } from "react";
-import { getTroopsListShorted } from "../../firebase/template/setting";
+import { useState, useContext, useEffect } from "react";
+import {
+  getDefaultScoutGraduation,
+  getTroopsListShorted,
+} from "../../firebase/template/setting";
 import { getFormattedDate } from "../../firebase/tools";
+import { FormContext } from "./formContext";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../firebase/firebase";
 
 const Graduation = () => {
   //タブ管理用
   const [tab, setTab] = useState("GEN");
+
+  const [graduation, setGraduation] = useState("");
+  const [edited, setEdited] = useState(false);
+  //所属履歴のContextを取得
+  const { belonged, uid, disableEdit, isNew } = useContext(FormContext);
+
+  //
+  const loadGraduation = () => {
+    let tmp = getDefaultScoutGraduation();
+    if (!isNew) {
+      getDocs(collection(db, "scouts", uid, "graduation"));
+    }
+    setGraduation(tmp);
+  };
+
+  useEffect(() => {
+    //uidが変わったら読み出し直す
+    if (uid) {
+      loadGraduation();
+    }
+  }, [uid]);
 
   return (
     <div className="card">
@@ -27,15 +54,12 @@ const Graduation = () => {
               <li className="nav-item">
                 <span
                   className={`nav-link ${tab == e && "active"} ${
-                    person &&
-                    person.history &&
-                    !person.history[e].exp &&
-                    "disabled"
+                    !belonged[e] && "disabled"
                   }`}
                   onClick={() => {
                     setTab(e);
                   }}
-                  disabled={person && person.history && !person.history[e].exp}
+                  disabled={!belonged[e]}
                 >
                   {e}
                 </span>
@@ -47,10 +71,8 @@ const Graduation = () => {
         <div className="tab-content d-flex w-100">
           <div className="mt-3 d-flex flex-column w-100 justify-content-center">
             <div className="row">
-              {person &&
-                person.history &&
-                person.history[tab] &&
-                person.history[tab].graduation.map((e, index) => {
+              {graduation &&
+                graduation[tab].map((e, index) => {
                   return (
                     <div className="form-group justify-content-center">
                       <label className="form-label">{e.name}</label>
@@ -61,31 +83,7 @@ const Graduation = () => {
                         value={
                           e.finished && getFormattedDate(new Date(e.finished))
                         }
-                        onChange={(e) => {
-                          setPerson({
-                            ...person,
-                            history: {
-                              ...person.history,
-                              [tab]: {
-                                ...person.history[tab],
-                                graduation: person.history[tab].graduation.map(
-                                  (f, ind) => {
-                                    return ind === index
-                                      ? {
-                                          ...f,
-                                          finished: new Date(
-                                            e.target.value
-                                          ).getTime(),
-                                        }
-                                      : f;
-                                  }
-                                ),
-                              },
-                            },
-                          });
-                          person.history[tab].graduation[index].finished =
-                            new Date(e.target.value);
-                        }}
+                        onChange={(e) => {}}
                       />
                     </div>
                   );
@@ -93,6 +91,15 @@ const Graduation = () => {
             </div>
           </div>
         </div>
+      </div>
+      <div className="card-footer d-flex justify-content-end">
+        {edited ? (
+          <button className="btn btn-primary" disabled={disableEdit}>
+            保存
+          </button>
+        ) : (
+          <span>変更がありません</span>
+        )}
       </div>
     </div>
   );

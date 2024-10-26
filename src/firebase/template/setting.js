@@ -3,22 +3,10 @@ import troops from "./troops.json";
 export const getDefaultScoutDataForm = () => {
   const troop = getTroopsListShorted();
   let history = {};
-  let count = 0;
+
   troop.forEach((e) => {
-    history[e] = {
-      exp: true,
-      joined: "",
-      exited: "",
-    };
-    count++;
+    history[e] = true;
   });
-  history["GEN"] = {
-    exp: true,
-    joined: "",
-    exited: "",
-    graduation: [],
-    events: [{ name: "誓いを立てた日", finished: "" }],
-  };
   return {
     firstname: "",
     lastname: "",
@@ -32,28 +20,24 @@ export const getDefaultScoutEvent = () => {
   const troop = getTroopsListShorted();
   let history = {};
   let count = 0;
-  troop.forEach((e) => {
-    history[e] = {
-      exp: true,
-      joined: "",
-      exited: "",
-    };
+  troops.forEach((e) => {
+    history[troop[count]] = e.events;
     count++;
   });
-  history["GEN"] = {
-    exp: true,
-    joined: "",
-    exited: "",
-    graduation: [],
-    events: [{ name: "誓いを立てた日", finished: "" }],
-  };
-  return {
-    firstname: "",
-    lastname: "",
-    belong: "BS",
-    comment: "",
-    history: { ...history },
-  };
+  history["GEN"] = [{ name: "誓いを立てた日", finished: "" }];
+  return history;
+};
+
+export const getDefaultScoutGraduation = () => {
+  const troop = getTroopsListShorted();
+  let history = {};
+  let count = 0;
+  troops.forEach((e) => {
+    history[troop[count]] = e.graduation;
+    count++;
+  });
+  history["GEN"] = [];
+  return history;
 };
 
 export const getTroopsListShorted = () => {
