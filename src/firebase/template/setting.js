@@ -9,13 +9,34 @@ export const getDefaultScoutDataForm = () => {
       exp: true,
       joined: "",
       exited: "",
-      graduation: troops[count].graduation.map((e) => {
-        return { name: e.name, finished: "" };
-      }),
+    };
+    count++;
+  });
+  history["GEN"] = {
+    exp: true,
+    joined: "",
+    exited: "",
+    graduation: [],
+    events: [{ name: "誓いを立てた日", finished: "" }],
+  };
+  return {
+    firstname: "",
+    lastname: "",
+    belong: "BS",
+    comment: "",
+    history: { ...history },
+  };
+};
 
-      events: troops[count].events.map((e) => {
-        return { name: e.name, finished: "" };
-      }),
+export const getDefaultScoutEvent = () => {
+  const troop = getTroopsListShorted();
+  let history = {};
+  let count = 0;
+  troop.forEach((e) => {
+    history[e] = {
+      exp: true,
+      joined: "",
+      exited: "",
     };
     count++;
   });

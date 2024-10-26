@@ -1,20 +1,30 @@
 //設定画面でイベントを描画する
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getTroopsListShorted } from "../../firebase/template/setting";
 import { getFormattedDate } from "../../firebase/tools";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../firebase/firebase";
+import { FormContext } from "./formContext";
 
 const Events = () => {
   //タブ管理用
   const [tab, setTab] = useState("GEN");
 
+  //contextを取得
+  const { isNew, disableEdit } = useContext(FormContext);
+
   //Firestoreの該当スカウトデータの子コレクション「events」を取得
   const [events, setEvents] = useState([]);
   useEffect(() => {
-    getDocs(collection(db));
-  }, []);
+    getDocs(collection(db, "scouts", uid, "events")).then((snapshot) => {
+      const data = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        data: doc.data(),
+      }));
+      setEvents(data);
+    });
+  }, [uid]);
 
   return (
     <div className="card">

@@ -5,32 +5,28 @@ import BasicInfo from "./basicInfo";
 import Graduation from "./graduation";
 import Events from "./events";
 import Title from "./title";
-import { PersonContext, PersonProvider } from "./personContext";
+import { FormContext, FormProvider } from "./formContext";
 
 const Detail = () => {
   const locate = useLocation();
-  const nav = useNavigate();
   const path = locate.pathname.slice(14);
 
-  const { handleSave } = useContext(PersonContext);
-
   return (
-    <PersonProvider uid={path}>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          const { handleSave } = useContext(PersonContext);
-          handleSave(e);
-        }}
-        className="pb-2 justify-content-center"
-      >
+    <FormProvider uid={path}>
+      <div className="pb-2 justify-content-center">
         <div className="row">
-          <div className="col-12">
+          <div className="col-12 mb-3">
             <Title />
+          </div>
+          <div className="col-12 mb-3">
             <BasicInfo />
           </div>
-          <div className="col-12 col-lg-6 mb-3">{/*<Graduation />*/}</div>
-          <div className="col-12 col-lg-6 mb-3">{/*<Events />*/}</div>
+          <div className="col-12 col-lg-6 mb-3">
+            <Graduation />
+          </div>
+          <div className="col-12 col-lg-6 mb-3">
+            <Events />
+          </div>
           <div className="col-12 mb-3">
             <div className="card">
               <div className="card-body d-flex justify-content-center">
@@ -44,8 +40,8 @@ const Detail = () => {
             </div>
           </div>
         </div>
-      </form>
-    </PersonProvider>
+      </div>
+    </FormProvider>
   );
 };
 

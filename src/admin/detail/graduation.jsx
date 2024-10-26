@@ -1,5 +1,4 @@
 //詳細画面での進級過程表示
-
 import { useState } from "react";
 import { getTroopsListShorted } from "../../firebase/template/setting";
 import { getFormattedDate } from "../../firebase/tools";
