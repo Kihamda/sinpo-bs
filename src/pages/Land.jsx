@@ -1,12 +1,13 @@
 import { Link, Route, Routes, Navigate, useLocation } from "react-router-dom";
 
-import { useEffect, useState } from "react";
 import Auth from "../auth/auth";
 
+import { useEffect, useState } from "react";
 const Land = () => {
   return (
     <div className="justify-content-center d-flex flex-column text-center">
-      <h1>電子進歩壁掛け表</h1>
+      <h1 className="mb-0 pt-0">My History</h1>
+      <span className="mb-5">of Scouting</span>
       <p>ボーイスカウト吹田9団専用システム</p>
       <p>
         <Link to="/help/contact">連絡はこちらまで</Link>
@@ -32,26 +33,26 @@ const Top = () => {
   }, [locate]);
   return (
     <div
-      className="vw-100 vh-100 justify-content-center "
+      className="min-vh-100 justify-content-center"
       style={{
         backgroundImage: "url(/bg.webp)",
         backgroundSize: "cover",
       }}
     >
       <div
-        className="vh-100 d-flex flex-wrap justify-content-center align-content-center "
+        className="min-vh-100 d-flex flex-wrap justify-content-center"
         style={{
           backdropFilter: `blur(${blur}px)`,
           transition: "ease-in-out 1s",
           transitionProperty: "backdrop-filter",
         }}
       >
-        <div
-          className="row justify-content-center w-100"
-          style={{ minHeight: "75%" }}
-        >
-          <div className="col-12 col-lg-6 col-md-8 col-xxl-4 container d-flex flex-wrap justify-content-center align-content-center">
-            <div className="card w-100 h-100">
+        <div className="row justify-content-center w-100">
+          <div className="col-12 col-lg-6 col-md-8 col-xxl-4 container d-flex flex-wrap justify-content-center align-content-center mt-auto mb-auto">
+            <div
+              className="card w-100 h-100 pt-5 pb-5"
+              style={{ minHeight: "65vh" }}
+            >
               <div className="card-body d-flex flex-wrap justify-content-center align-content-center">
                 <Routes>
                   <Route path="/" element={<Land />} />

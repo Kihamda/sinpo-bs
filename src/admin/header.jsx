@@ -10,14 +10,22 @@ const Header = ({ username }) => {
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary border-bottom border-bottom-dark fixed-top">
       <div className="container">
-        <NavLink className="navbar-brand fw-bold" to={"/admin/"}>
+        <NavLink
+          className="navbar-brand fw-bold d-flex align-items-center"
+          to={"/admin/"}
+        >
           <svg
             id="_x31_0"
             xmlns="http://www.w3.org/2000/svg"
             x="0px"
             y="0px"
             viewBox="0 0 512 512"
-            style={{ width: "30px", height: "24px", opacity: "1" }}
+            style={{
+              width: "30px",
+              height: "24px",
+              opacity: "1",
+              paddingBottom: "2px",
+            }}
           >
             <g>
               <path
@@ -93,7 +101,7 @@ const Header = ({ username }) => {
               ></path>
             </g>
           </svg>
-          進歩壁掛け表
+          My History
         </NavLink>
 
         <button
@@ -126,11 +134,6 @@ const Header = ({ username }) => {
               <li className="nav-item" data-bs-dismiss="offcanvas">
                 <NavLink className="nav-link" to={"/admin/scouts"}>
                   スカウト詳細検索
-                </NavLink>
-              </li>
-              <li className="nav-item" data-bs-dismiss="offcanvas">
-                <NavLink className="nav-link" to={"/admin/lump"}>
-                  記録の一括操作
                 </NavLink>
               </li>
               <li className="nav-item" data-bs-dismiss="offcanvas">

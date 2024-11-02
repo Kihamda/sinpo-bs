@@ -43,11 +43,13 @@ const ShareHome = () => {
     <>
       <div className="card mb-3">
         <div className="card-body">
-          <div className="d-flex">
+          <div className="d-flex justify-content-center flex-wrap">
             <h3 className="card-title me-auto">共有セッション</h3>
-            <Link to="/admin/share/new" className="btn btn-primary">
-              新規共有セッション
-            </Link>
+            <div>
+              <Link to="/admin/share/new" className="btn btn-primary">
+                新規共有セッション
+              </Link>
+            </div>
           </div>
         </div>
       </div>
