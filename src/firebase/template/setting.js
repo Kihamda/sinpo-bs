@@ -17,26 +17,38 @@ export const getDefaultScoutDataForm = () => {
 };
 
 export const getDefaultScoutEvent = () => {
-  const troop = getTroopsListShorted();
-  let history = {};
+  let history = [];
   let count = 0;
   troops.forEach((e) => {
-    history[troop[count]] = e.events;
+    e.events.forEach((f) => {
+      history.push({
+        name: f.name,
+        del: false,
+        finished: "",
+        type: [{ name: e.short, row: i }],
+      });
+    });
     count++;
   });
-  history["GEN"] = [{ name: "誓いを立てた日", finished: "" }];
+
   return history;
 };
 
 export const getDefaultScoutGraduation = () => {
-  const troop = getTroopsListShorted();
-  let history = {};
+  let history = [];
   let count = 0;
   troops.forEach((e) => {
-    history[troop[count]] = e.graduation;
+    e.graduation.forEach((f, i) => {
+      history.push({
+        name: f.name,
+        del: false,
+        finished: "",
+        type: [{ name: e.short, row: i }],
+      });
+    });
     count++;
   });
-  history["GEN"] = [];
+
   return history;
 };
 

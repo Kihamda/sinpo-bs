@@ -5,6 +5,7 @@ import Graduation from "./graduation";
 import Events from "./events";
 import Title from "./title";
 import { FormProvider } from "./formContext";
+import Ginosho from "./ginosho";
 
 const Detail = () => {
   const locate = useLocation();
@@ -25,18 +26,11 @@ const Detail = () => {
               <div className="col-12 col-lg-6 mb-3">
                 <Graduation />
               </div>
-              <div className="col-12 col-lg-6 mb-3">{/*<Events />*/}</div>
+              <div className="col-12 col-lg-6 mb-3">
+                <Events />
+              </div>
               <div className="col-12 mb-3">
-                <div className="card">
-                  <div className="card-body d-flex justify-content-center">
-                    <button type="button" className="btn btn-primary me-1">
-                      技能賞
-                    </button>
-                    <button type="button" className="btn btn-primary ms-1 me-1">
-                      奉仕活動履歴
-                    </button>
-                  </div>
-                </div>
+                <Ginosho />
               </div>
             </>
           ) : (

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import troop from "../firebase/template/troops.json";
 import { db } from "./../firebase/firebase";
 import { collection, getDocs } from "firebase/firestore";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 const Scouts = () => {
   const [filter, setFilter] = useState({
     name: "",
@@ -18,6 +18,9 @@ const Scouts = () => {
   const [scouts, setScouts] = useState([]);
   const nav = useNavigate();
 
+  //画面遷移検出
+  const locate = useLocation();
+
   useEffect(() => {
     getDocs(collection(db, "scouts")).then((snapshot) => {
       let tmp = [];
@@ -27,7 +30,7 @@ const Scouts = () => {
 
       setScouts(tmp);
     });
-  }, []);
+  }, [locate]);
 
   const isInFilter = (scout) => {
     let isAllowed = false;
@@ -38,21 +41,18 @@ const Scouts = () => {
       if (filter.mode == 0) {
         Object.keys(filter.troops).forEach((e) => {
           if (filter.troops[e] && scout.belong == e) {
-            console.log(scout);
             isAllowed = true;
           }
         });
       } else if (filter.mode == 1) {
         Object.keys(filter.troops).forEach((e) => {
           if (filter.troops[e] && scout.belong == e) {
-            console.log(e);
             isAllowed = true;
           }
         });
       } else if (filter.mode == 2) {
         Object.keys(filter.troops).forEach((e) => {
           if (filter.troops[e] && scout.belong == e) {
-            console.log(e);
             isAllowed = true;
           }
         });

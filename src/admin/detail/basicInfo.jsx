@@ -1,10 +1,18 @@
 import { useContext, useEffect, useState } from "react";
 import troop from "../../firebase/template/troops.json";
 import { FormContext } from "./formContext";
-import { addDoc, collection, doc, getDoc, setDoc } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  setDoc,
+  writeBatch,
+} from "firebase/firestore";
 import { db } from "../../firebase/firebase";
 import {
   getDefaultScoutDataForm,
+  getDefaultScoutGraduation,
   getTroopsListShorted,
 } from "../../firebase/template/setting";
 import { useNavigate } from "react-router-dom";
@@ -16,6 +24,13 @@ const BasicInfo = () => {
 
   //編集済みフラグ
   const [edited, setEdited] = useState(false);
+
+  useEffect(() => {
+    //初回編集ならフラグを立てる
+    if (!edited && !disableEdit) {
+      setEdited(true);
+    }
+  }, [person]);
 
   //ページ遷移用
   const nav = useNavigate();
@@ -38,8 +53,16 @@ const BasicInfo = () => {
       //新規作成ならaddDoc
       addDoc(collection(db, "scouts"), person).then(
         (docs) => {
-          console.log("Document successfully written!" + docs.id);
-          nav("/admin/scouts/" + docs.id);
+          // 登録後、graduationテー��ルにも登録する
+          const graduation = getDefaultScoutGraduation();
+          const batch = writeBatch(db);
+          graduation.forEach((e) => {
+            batch.set(doc(collection(db, "scouts", docs.id, "graduation")), e);
+          });
+          batch.commit().then(() => {
+            alert("正常に作成されました");
+            nav("/admin/scouts/" + docs.id); // graduation画面へ移動
+          });
         },
         (error) => console.error("Error writing document: ", error)
       );
@@ -48,7 +71,10 @@ const BasicInfo = () => {
     } else {
       // 既存データならsetDoc
       setDoc(doc(db, "scouts", uid), person).then(
-        () => console.log("Document successfully written!"),
+        () => {
+          setEdited(false);
+          alert("正常に更新されました");
+        },
         (error) => console.error("Error writing document: ", error)
       );
     }
@@ -56,8 +82,11 @@ const BasicInfo = () => {
 
   // uidが取得できたらDBからpersonデータを読み出す
   const loadPerson = () => {
-    getDoc(doc(db, "scouts", uid))
-      .then((doc) => {
+    if (uid == "new") {
+      // uidがnewなら、新規登録にする
+      setDisableEdit(false);
+    } else {
+      getDoc(doc(db, "scouts", uid)).then((doc) => {
         if (doc.data()) {
           //データstate保存時に起きる処理
           const data = doc.data();
@@ -71,25 +100,18 @@ const BasicInfo = () => {
           setIsNew(false); // 取得できた時は新規登録ではない
           setBelonged(tmp);
           setEdited(false);
-          console.log("Document was found!");
         } else {
-          setDisableEdit(false);
-          console.log("No such document!");
+          alert("データが見つかりませんでした");
+          nav("/admin/scouts"); // 画面遷移
         }
-      })
-      .catch((error) => {
-        console.error("Error getting document:", error);
       });
+    }
   };
 
   // uidが変わったら読み出し直す
   useEffect(() => {
     if (uid) {
       loadPerson();
-    }
-    //初回編集ならフラグを立てる
-    if (!edited) {
-      setEdited(true);
     }
   }, [uid]);
 
