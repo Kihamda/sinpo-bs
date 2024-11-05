@@ -10,12 +10,7 @@
     "id": 2,
     "name": "カブ隊",
     "short": "CS",
-    "graduation": [
-      { "name": "うさぎ" },
-      { "name": "しか" },
-      { "name": "くま" }
-    ],
-    "events": []
+    "graduation": [{ "name": "うさぎ" }, { "name": "しか" }, { "name": "くま" }]
   },
   {
     "id": 3,
@@ -26,8 +21,7 @@
       { "name": "二級章" },
       { "name": "一級章" },
       { "name": "菊章" }
-    ],
-    "events": []
+    ]
   },
   {
     "id": 4,
@@ -37,14 +31,12 @@
       { "name": "ベンチャー章" },
       { "name": "隼章" },
       { "name": "富士章" }
-    ],
-    "events": []
+    ]
   },
   {
     "id": 5,
     "name": "ローバー隊",
     "short": "RS",
-    "graduation": [],
-    "events": []
+    "graduation": []
   }
 ]
