@@ -133,12 +133,7 @@ const Header = ({ username }) => {
             <ul className="navbar-nav">
               <li className="nav-item" data-bs-dismiss="offcanvas">
                 <NavLink className="nav-link" to={"/admin/scouts"}>
-                  スカウト詳細検索
-                </NavLink>
-              </li>
-              <li className="nav-item" data-bs-dismiss="offcanvas">
-                <NavLink className="nav-link" to={"/admin/share"}>
-                  記録の共有
+                  スカウト検索
                 </NavLink>
               </li>
             </ul>

@@ -12,38 +12,27 @@ export const getDefaultScoutDataForm = () => {
     lastname: "",
     belong: "BS",
     comment: "",
+    joined: "",
+    declare: { date: "", place: "" },
     history: { ...history },
   };
-};
-
-export const getDefaultScoutEvent = () => {
-  let history = [];
-  let count = 0;
-  troops.forEach((e) => {
-    e.events.forEach((f) => {
-      history.push({
-        name: f.name,
-        del: false,
-        finished: "",
-        type: [{ name: e.short, row: i }],
-      });
-    });
-    count++;
-  });
-
-  return history;
 };
 
 export const getDefaultScoutGraduation = () => {
   let history = [];
   let count = 0;
+
   troops.forEach((e) => {
+    history.push({
+      name: e.name,
+      finished: "",
+      type: { name: e.short, row: 0 },
+    });
     e.graduation.forEach((f, i) => {
       history.push({
         name: f.name,
-        del: false,
         finished: "",
-        type: [{ name: e.short, row: i }],
+        type: { name: e.short, row: 1 + i },
       });
     });
     count++;

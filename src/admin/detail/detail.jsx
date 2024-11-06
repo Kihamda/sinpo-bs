@@ -2,7 +2,6 @@ import { useLocation } from "react-router-dom";
 
 import BasicInfo from "./basicInfo";
 import Graduation from "./graduation";
-import Events from "./events";
 import Title from "./title";
 import { FormProvider } from "./formContext";
 import Ginosho from "./ginosho";
@@ -23,14 +22,11 @@ const Detail = () => {
           </div>
           {!(path === "new") ? (
             <>
-              <div className="col-12 col-lg-6 mb-3">
-                <Graduation />
-              </div>
-              <div className="col-12 col-lg-6 mb-3">
-                <Events />
-              </div>
               <div className="col-12 mb-3">
                 <Ginosho />
+              </div>
+              <div className="col-12 mb-3">
+                <Graduation />
               </div>
             </>
           ) : (
