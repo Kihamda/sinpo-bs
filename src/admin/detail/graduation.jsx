@@ -83,15 +83,7 @@ const Graduation = () => {
                         })
                         .map((e, index) => {
                           if (index === 0) {
-                            return (
-                              <div
-                                key={e.id}
-                                className="col-10 d-flex justify-content-between pt-4 pb-3"
-                                style={{ borderBottom: "solid 2px #000" }}
-                              >
-                                <h4>{e.name}</h4>
-                              </div>
-                            );
+                            return <OneHeader id={e.id} data={e} />;
                           } else {
                             return <OneGrid id={e.id} data={e} />;
                           }
@@ -201,6 +193,87 @@ const OneGrid = ({ id, data }) => {
               )}
             </>
           )}
+        </div>
+        <div className="col-6 col-md-2 d-grid justify-content-end align-content-center">
+          {editing ? (
+            <button
+              className={`btn btn-primary`}
+              onClick={() => {
+                sendData();
+              }}
+            >
+              保存
+            </button>
+          ) : (
+            <button
+              className={`btn ${disableEdit ? "btn-secondory" : "btn-primary"}`}
+              disabled={disableEdit}
+              onClick={() => {
+                setEditing(true);
+              }}
+            >
+              編集
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const OneHeader = ({ id, data }) => {
+  const { disableEdit, uid } = useContext(FormContext);
+  const [e, setE] = useState(data);
+  const [editing, setEditing] = useState(false);
+
+  const sendData = () => {
+    setDoc(doc(db, "scouts", uid, "graduation", id), e).then(() => {
+      setEditing(false);
+    });
+  };
+
+  return (
+    <div
+      key={e.id}
+      className="col-10 d-flex pt-4 pb-3 text-center"
+      style={{ borderBottom: "solid 2px #000" }}
+    >
+      <div className="row w-100">
+        <div className="col-6 col-md-3 d-grid align-content-center">
+          <span className="text-start">{e.name}</span>
+        </div>
+        <div className="col-6 col-md-2 d-grid align-content-center"></div>
+        <div className="col-6 col-md-5 d-grid align-content-center">
+          {
+            <>
+              {editing ? (
+                <div className="w-100">
+                  <label htmlFor={"tookdate" + id} className="form-label">
+                    入隊日時
+                  </label>
+                  <input
+                    type="date"
+                    id={"tookdate" + id}
+                    className="form-control"
+                    value={e.finished ? getFormattedDate(e).finished : ""}
+                    onChange={(ev) => {
+                      setE({
+                        ...e,
+                        finished: new Date(ev.target.value).valueOf(),
+                      });
+                    }}
+                  />
+                </div>
+              ) : (
+                <span className="text-end">
+                  入隊日時：
+                  {e.finished
+                    ? getFormattedDate(e.finished).replaceAll("-", "/")
+                    : "データなし"}
+                </span>
+              )}
+            </>
+          }
         </div>
         <div className="col-6 col-md-2 d-grid justify-content-end align-content-center">
           {editing ? (

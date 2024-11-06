@@ -3,7 +3,7 @@ import Header from "./header";
 import Scouts from "./scouts";
 import Home from "./home";
 import { useAuthContext } from "../firebase/authContext";
-import Share from "./share";
+import Setting from "./setting/setting";
 import Detail from "./detail/detail";
 const Admin = () => {
   const { user, userName } = useAuthContext();
@@ -18,7 +18,7 @@ const Admin = () => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/scouts" element={<Scouts />} />
-            <Route path="/share/*" element={<Share />} />
+            <Route path="/setting" element={<Setting />} />
             <Route path="/scouts/:id" element={<Detail />} />
           </Routes>
         </div>
