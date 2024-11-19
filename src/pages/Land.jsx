@@ -7,8 +7,7 @@ const Land = () => {
   return (
     <div className="justify-content-center d-flex flex-column text-center">
       <h1 className="mb-0 pt-0">My History</h1>
-      <span className="mb-5">of Scouting</span>
-      <p>ボーイスカウト吹田9団専用システム</p>
+      <span className="mb-5">from My History of Scouting プロジェクト</span>
       <p>
         <Link to="/help/contact">連絡はこちらまで</Link>
       </p>

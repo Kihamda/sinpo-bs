@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import troop from "../firebase/template/troops.json";
 import { db } from "./../firebase/firebase";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useAuthContext } from "../firebase/authContext";
 const Scouts = () => {
   const [filter, setFilter] = useState({
     name: "",
@@ -18,18 +19,22 @@ const Scouts = () => {
   const [scouts, setScouts] = useState([]);
   const nav = useNavigate();
 
+  const { orgid, role } = useAuthContext();
+
   //画面遷移検出
   const locate = useLocation();
 
   useEffect(() => {
-    getDocs(collection(db, "scouts")).then((snapshot) => {
-      let tmp = [];
-      snapshot.forEach((doc) => {
-        tmp.push({ ...doc.data(), id: doc.id });
-      });
+    getDocs(query(collection(db, "scouts"), where("group", "==", orgid))).then(
+      (snapshot) => {
+        let tmp = [];
+        snapshot.forEach((doc) => {
+          tmp.push({ ...doc.data(), id: doc.id });
+        });
 
-      setScouts(tmp);
-    });
+        setScouts(tmp);
+      }
+    );
   }, [locate]);
 
   const isInFilter = (scout) => {
@@ -67,10 +72,14 @@ const Scouts = () => {
         <div className="card">
           <div className="card-body d-flex align-content-center flex-wrap">
             <h3 className="card-title text-center">スカウト一覧</h3>
-            <div className="ms-auto">
-              <Link className="btn btn-primary" to="/admin/scouts/new">
-                スカウトの記録の新規作成
-              </Link>
+            <div className="ms-auto d-grid align-content-center">
+              {role == "ADMIN" || role == "EDIT" ? (
+                <Link className="btn btn-primary" to="/admin/scouts/new">
+                  スカウトの記録の新規作成
+                </Link>
+              ) : (
+                <span>編集・追加はできません</span>
+              )}
             </div>
           </div>
         </div>

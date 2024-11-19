@@ -17,6 +17,7 @@ import {
 } from "../../firebase/template/setting";
 import { useNavigate } from "react-router-dom";
 import { getFormattedDate } from "../../firebase/tools";
+import { useAuthContext } from "../../firebase/authContext";
 
 // 説明：uid取得してその内容をDBに問い合わせて描画
 const BasicInfo = () => {
@@ -36,6 +37,9 @@ const BasicInfo = () => {
   //ページ遷移用
   const nav = useNavigate();
 
+  //団体ID取得
+  const { orgid } = useAuthContext();
+
   const {
     uid,
     setUserName,
@@ -52,13 +56,16 @@ const BasicInfo = () => {
     // ここにpersonを保存する処理を記述する
     if (isNew) {
       //新規作成ならaddDoc
-      addDoc(collection(db, "scouts"), person).then(
+      addDoc(collection(db, "scouts"), { ...person, group: orgid }).then(
         (docs) => {
           // 登録後、graduationテー��ルにも登録する
           const graduation = getDefaultScoutGraduation();
           const batch = writeBatch(db);
           graduation.forEach((e) => {
-            batch.set(doc(collection(db, "scouts", docs.id, "graduation")), e);
+            batch.set(doc(collection(db, "scouts", docs.id, "graduation")), {
+              ...e,
+              group: orgid,
+            });
           });
           batch.commit().then(() => {
             alert("正常に作成されました");
@@ -71,7 +78,7 @@ const BasicInfo = () => {
       setIsNew(false); // 新規登録時は新規登録ではない
     } else {
       // 既存データならsetDoc
-      setDoc(doc(db, "scouts", uid), person).then(
+      setDoc(doc(db, "scouts", uid), { ...person, group: orgid }).then(
         () => {
           setEdited(false);
           alert("正常に更新されました");
@@ -255,7 +262,7 @@ const BasicInfo = () => {
                 onChange={(e) =>
                   setPerson({
                     ...person,
-                    joined: new Date(e.target.value).valueOf,
+                    joined: new Date(e.target.value).valueOf(),
                   })
                 }
               />
@@ -273,7 +280,7 @@ const BasicInfo = () => {
                     ...person,
                     declare: {
                       ...person.declare,
-                      date: new Date(e.target.value).valueOf,
+                      date: new Date(e.target.value).valueOf(),
                     },
                   })
                 }

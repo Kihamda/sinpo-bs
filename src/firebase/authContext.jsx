@@ -12,23 +12,47 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState("");
   const [userName, setUserName] = useState("");
   const [loading, setLoading] = useState(true);
+  const [relid, setRelid] = useState("");
+  const [orgid, setOrgid] = useState("");
   const [role, setRole] = useState("");
+  const [verified, setVerified] = useState(false);
 
   const value = {
     user,
     userName,
     loading,
+    relid,
+    orgid,
     role,
+    verified,
   };
 
   useEffect(() => {
-    const unsubscribed = auth.onAuthStateChanged((user) => {
-      setUser(user);
-      setLoading(false);
-      getDoc(doc(db, "users", user.uid)).then((auser) => {
-        setUserName(auser.data().name);
-        setRole(auser.data().role);
-      });
+    const unsubscribed = auth.onAuthStateChanged((suser) => {
+      if (suser) {
+        getDoc(doc(db, "users", suser.uid)).then((auser) => {
+          setUserName(auser.data().name);
+          setRelid(auser.data().group.relid);
+          setOrgid(auser.data().group.orgid);
+          setVerified(auth.currentUser.emailVerified);
+          getDoc(
+            doc(
+              db,
+              "groups",
+              auser.data().group.orgid,
+              "members",
+              auser.data().group.relid
+            )
+          ).then((buser) => {
+            setRole(buser.data().role);
+            setUser(suser);
+            setLoading(false);
+          });
+        });
+      } else {
+        setUser(suser);
+        setLoading(false);
+      }
     });
     return () => {
       unsubscribed();

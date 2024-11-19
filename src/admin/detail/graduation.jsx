@@ -11,37 +11,7 @@ const Graduation = () => {
   const [editHistory, setEditHistory] = useState([]);
 
   //所属履歴のContextを取得
-  const { belonged, uid, disableEdit, isNew } = useContext(FormContext);
-
-  //編集フラグ
-  const [edited, setEdited] = useState(false);
-
-  //保存処理
-  const saveGraduation = () => {
-    let tmp = [];
-    graduation.forEach((e) => {
-      if (editHistory.find((f) => f == e.id)) {
-        tmp.push(e);
-      }
-    });
-
-    tmp.forEach((f, i) => {
-      const data = {
-        name: f.name,
-        finished: f.finished,
-        del: f.del,
-        type: f.type,
-      };
-      setDoc(doc(db, "scouts", uid, "graduation", f.id), data).then(() => {
-        console.log("sended" + i);
-        if (i + 1 >= tmp.length) {
-          setEdited(false);
-          setEditHistory([]);
-          console.log("saved:" + i);
-        }
-      });
-    });
-  };
+  const { belonged, uid, isNew } = useContext(FormContext);
 
   //読み込み処理
   useEffect(() => {
@@ -55,7 +25,6 @@ const Graduation = () => {
           }
         });
         setGraduation(tmp);
-        setEdited(false);
       });
     }
   }, [uid, isNew]);
@@ -96,17 +65,7 @@ const Graduation = () => {
         </div>
       </div>
       <div className="card-footer d-flex justify-content-end">
-        {edited ? (
-          <button
-            className="btn btn-primary"
-            disabled={disableEdit}
-            onClick={saveGraduation}
-          >
-            保存
-          </button>
-        ) : (
-          <span>変更がありません</span>
-        )}
+        <span>変更は保存ボタンで</span>
       </div>
     </div>
   );
@@ -174,7 +133,7 @@ const OneGrid = ({ id, data }) => {
                     type="date"
                     id={"tookdate" + uid}
                     className="form-control"
-                    value={e.finished ? getFormattedDate(e).finished : ""}
+                    value={e.finished && getFormattedDate(e.finished)}
                     onChange={(ev) => {
                       setE({
                         ...e,
@@ -255,7 +214,7 @@ const OneHeader = ({ id, data }) => {
                     type="date"
                     id={"tookdate" + id}
                     className="form-control"
-                    value={e.finished ? getFormattedDate(e).finished : ""}
+                    value={e.finished && getFormattedDate(e.finished)}
                     onChange={(ev) => {
                       setE({
                         ...e,
