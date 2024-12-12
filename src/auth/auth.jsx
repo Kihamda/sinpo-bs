@@ -1,13 +1,14 @@
-import { Link, Navigate, Route, Routes } from "react-router-dom";
+import { Link, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import Login from "./login";
 import Signup from "./signup";
-import Viewer from "./viewer";
 import { useAuthContext } from "../firebase/authContext";
 import Reset from "./reset";
 
 const Auth = () => {
   const { user } = useAuthContext();
-  if (user) {
+  const isNewReg = useLocation();
+
+  if (user && !(isNewReg.pathname == "/auth/signup")) {
     return <Navigate to={"/admin"} />;
   } else {
     return (
@@ -18,7 +19,6 @@ const Auth = () => {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/viewer" element={<Viewer />} />
           <Route path="/reset" element={<Reset />} />
           <Route path="/*" element={<Navigate to={"/auth/login"} />} />
         </Routes>

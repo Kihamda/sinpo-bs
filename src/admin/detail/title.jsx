@@ -8,7 +8,7 @@ import { db } from "../../firebase/firebase";
 
 const Title = () => {
   //いろいろはいったcontextの取得
-  const { setDisableEdit, disableEdit, isNew, userName, uid } =
+  const { setDisableEdit, disableEdit, isNew, userName, uid, role } =
     useContext(FormContext);
 
   //navigation実装（いつもの
@@ -42,54 +42,60 @@ const Title = () => {
           </span>
         </div>
         <div className="align-content-center">
-          {disableEdit ? (
+          {role == "admin" || role == "EDIT" ? (
             <>
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.preventDefault();
-                  nav("/admin/scouts/");
-                }}
-                className="btn btn-outline-secondary me-2"
-              >
-                一覧に戻る
-              </button>
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setDisableEdit(false);
-                }}
-                className="btn btn-primary"
-              >
-                編集を開始
-              </button>
+              {disableEdit ? (
+                <>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      nav("/admin/scouts/");
+                    }}
+                    className="btn btn-outline-secondary me-2"
+                  >
+                    一覧に戻る
+                  </button>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setDisableEdit(false);
+                    }}
+                    className="btn btn-primary"
+                  >
+                    編集を開始
+                  </button>
+                </>
+              ) : (
+                <>
+                  {!isNew && (
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleDelete();
+                      }}
+                      className="btn btn-danger ms-2"
+                    >
+                      記録を削除
+                    </button>
+                  )}
+                  <button
+                    className="btn btn-outline-secondary ms-2"
+                    type="button"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      isNew ? nav("/admin/scouts") : setDisableEdit(true);
+                    }}
+                  >
+                    編集を終了
+                  </button>
+                </>
+              )}
             </>
           ) : (
-            <>
-              {!isNew && (
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleDelete();
-                  }}
-                  className="btn btn-danger ms-2"
-                >
-                  記録を削除
-                </button>
-              )}
-              <button
-                className="btn btn-outline-secondary ms-2"
-                type="button"
-                onClick={(e) => {
-                  e.preventDefault();
-                  isNew ? nav("/admin/scouts") : setDisableEdit(true);
-                }}
-              >
-                編集を終了
-              </button>
-            </>
+            <p>編集権限がありません</p>
           )}
         </div>
       </div>

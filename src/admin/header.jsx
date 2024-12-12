@@ -1,12 +1,21 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { NavLink } from "react-router-dom";
-import { faGear, faQuestion } from "@fortawesome/free-solid-svg-icons";
+import {
+  faGear,
+  faMagnifyingGlass,
+  faQuestion,
+  faUsers,
+} from "@fortawesome/free-solid-svg-icons";
 import { auth } from "../firebase/firebase";
+import { useAuthContext } from "../firebase/authContext";
 const Header = ({ username }) => {
   const handleLogout = () => {
     auth.signOut();
     nav("/auth/login");
   };
+
+  const { role } = useAuthContext();
+
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary border-bottom border-bottom-dark fixed-top">
       <div className="container">
@@ -121,7 +130,7 @@ const Header = ({ username }) => {
           aria-labelledby="offcanvasLabel"
         >
           <div className="offcanvas-header">
-            <h5 className="offcanvas-title">Menu</h5>
+            <h5 className="offcanvas-title">メニュー</h5>
             <button
               type="button"
               className="btn-close text-reset"
@@ -133,8 +142,34 @@ const Header = ({ username }) => {
             <ul className="navbar-nav">
               <li className="nav-item" data-bs-dismiss="offcanvas">
                 <NavLink className="nav-link" to={"/admin/scouts"}>
+                  <FontAwesomeIcon icon={faMagnifyingGlass} className="me-1" />
                   スカウト検索
                 </NavLink>
+              </li>
+              {role == "ADMIN" && (
+                <li className="nav-item" data-bs-dismiss="offcanvas">
+                  <NavLink className="nav-link" to={"/admin/group"}>
+                    <FontAwesomeIcon icon={faUsers} className="me-1" />
+                    グループ管理
+                  </NavLink>
+                </li>
+              )}
+              <li className="nav-item" data-bs-dismiss="offcanvas">
+                <NavLink className="nav-link" to={"/admin/setting"}>
+                  <FontAwesomeIcon icon={faGear} className="me-1" />
+                  設定
+                </NavLink>
+              </li>
+              <li className="nav-item" data-bs-dismiss="offcanvas">
+                <a
+                  className="nav-link"
+                  href="https://kihamdanet.notion.site/13cfca102538805c9daac48b39574ef7"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <FontAwesomeIcon icon={faQuestion} className="me-1" />
+                  ヘルプページ
+                </a>
               </li>
             </ul>
             <ul className="navbar-nav ms-auto d-none d-lg-flex">
@@ -146,16 +181,6 @@ const Header = ({ username }) => {
                   ログアウト
                 </button>
               </li>
-              <li className="nav-item d-flex">
-                <NavLink className="nav-link" to={"/admin/setting"}>
-                  <FontAwesomeIcon icon={faGear} />
-                </NavLink>
-              </li>
-              <li className="nav-item d-flex">
-                <NavLink className="nav-link" to={"/help"}>
-                  <FontAwesomeIcon icon={faQuestion} />
-                </NavLink>
-              </li>
             </ul>
           </div>
           <div className="offcanvas-footer d-lg-none text-center">
@@ -166,15 +191,7 @@ const Header = ({ username }) => {
               </button>
             </div>
             <div className="row">
-              <div className="col-2">
-                <a className="nav-link" href="{{ url_for('settings') }}">
-                  <i className="bi bi-sliders"></i>
-                </a>
-                <NavLink className="nav-link" to={"/setting"}>
-                  <FontAwesomeIcon icon={faGear} />
-                </NavLink>
-              </div>
-              <div className="col-8">
+              <div className="col-12">
                 <p>
                   Copyright © 2024
                   <a
@@ -185,12 +202,6 @@ const Header = ({ username }) => {
                     Dai.M
                   </a>
                 </p>
-              </div>
-
-              <div className="col-2">
-                <NavLink className="nav-link" to={"/help"}>
-                  <FontAwesomeIcon icon={faQuestion} />
-                </NavLink>
               </div>
             </div>
           </div>
