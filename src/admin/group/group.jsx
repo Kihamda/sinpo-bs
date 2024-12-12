@@ -4,9 +4,10 @@ import { useAuthContext } from "../../firebase/authContext";
 import { useEffect, useState } from "react";
 import New from "./new";
 import Editor from "./editor";
+import { Navigate } from "react-router-dom";
 
 const Group = () => {
-  const { orgid } = useAuthContext();
+  const { orgid, role } = useAuthContext();
   const [members, setMembers] = useState([]);
   const [showEditor, setShowEditer] = useState(false);
 
@@ -53,102 +54,106 @@ const Group = () => {
     });
   };
 
-  useEffect(() => {
-    getUsers();
-  }, []);
-
   const reload = () => {
     setShowEditer(null);
     getUsers();
   };
 
-  return (
-    <>
-      <div className="card mb-3">
-        <div className="card-body d-flex flex-row">
-          <div>
-            <h3 className="card-title">団体のメンバー</h3>
-            団体ID:{orgid}
-          </div>
-          <div className="d-grid align-content-center ms-auto">
-            <button
-              className="btn btn-primary"
-              onClick={() => {
-                setShowEditer(1);
-              }}
-            >
-              新規ユーザーの招待
-            </button>
-          </div>
-        </div>
-      </div>
+  useEffect(() => {
+    getUsers();
+  }, []);
 
-      {showEditor && (
+  if (role == "ADMIN") {
+    return (
+      <>
         <div className="card mb-3">
-          <div className="card-body">
-            {showEditor == 1 ? (
-              <New reload={reload} />
-            ) : (
-              <Editor content={showEditor} reload={reload} />
-            )}
-          </div>
-          <div className="card-footer d-flex">
-            <button
-              className="ms-auto btn btn-primary"
-              onClick={() => {
-                setShowEditer(null);
-              }}
-            >
-              終了する
-            </button>
+          <div className="card-body d-flex flex-row">
+            <div>
+              <h3 className="card-title">団体のメンバー</h3>
+              団体ID:{orgid}
+            </div>
+            <div className="d-grid align-content-center ms-auto">
+              <button
+                className="btn btn-primary"
+                onClick={() => {
+                  setShowEditer(1);
+                }}
+              >
+                新規ユーザーの招待
+              </button>
+            </div>
           </div>
         </div>
-      )}
 
-      <div className="card">
-        <div className="card-body">
-          <h3 className="text-center">メンバーの一覧</h3>
-          <table className="table table-striped">
-            <thead>
-              <tr>
-                <th>表示名</th>
-                <th>状態</th>
-                <th>メールアドレス</th>
-                <th>役割</th>
-              </tr>
-            </thead>
-            <tbody>
-              {members.map((member) => (
-                <tr
-                  key={member.id}
-                  onClick={() => {
-                    setShowEditer(member);
-                  }}
-                >
-                  <td>{member.name}</td>
-                  <td>
-                    {member.state == "FOUND"
-                      ? "登録済"
-                      : member.state == "NOTFOUND"
-                      ? "参照不可"
-                      : "未登録"}
-                  </td>
-                  <td>{member.email}</td>
-                  <td>
-                    {member.role == "VIEW"
-                      ? "閲覧者"
-                      : member.role == "EDIT"
-                      ? "編集者"
-                      : "管理者"}
-                  </td>
+        {showEditor && (
+          <div className="card mb-3">
+            <div className="card-body">
+              {showEditor == 1 ? (
+                <New reload={reload} />
+              ) : (
+                <Editor content={showEditor} reload={reload} />
+              )}
+            </div>
+            <div className="card-footer d-flex">
+              <button
+                className="ms-auto btn btn-primary"
+                onClick={() => {
+                  setShowEditer(null);
+                }}
+              >
+                終了する
+              </button>
+            </div>
+          </div>
+        )}
+
+        <div className="card">
+          <div className="card-body">
+            <h3 className="text-center">メンバーの一覧</h3>
+            <table className="table table-striped">
+              <thead>
+                <tr>
+                  <th>表示名</th>
+                  <th>状態</th>
+                  <th>メールアドレス</th>
+                  <th>役割</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {members.map((member) => (
+                  <tr
+                    key={member.id}
+                    onClick={() => {
+                      setShowEditer(member);
+                    }}
+                  >
+                    <td>{member.name}</td>
+                    <td>
+                      {member.state == "FOUND"
+                        ? "登録済"
+                        : member.state == "NOTFOUND"
+                        ? "参照不可"
+                        : "未登録"}
+                    </td>
+                    <td>{member.email}</td>
+                    <td>
+                      {member.role == "VIEW"
+                        ? "閲覧者"
+                        : member.role == "EDIT"
+                        ? "編集者"
+                        : "管理者"}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
-    </>
-  );
+      </>
+    );
+  } else {
+    return <Navigate to="/admin" />;
+  }
 };
 
 export default Group;

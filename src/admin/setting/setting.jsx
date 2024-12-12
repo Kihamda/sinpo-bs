@@ -1,5 +1,6 @@
 import AnchorLink from "react-anchor-link-smooth-scroll";
 import MyInfo from "./myinfo";
+import GroupInfo from "./groupinfo";
 
 const Setting = () => {
   return (
@@ -10,7 +11,7 @@ const Setting = () => {
         </div>
       </div>
       <div className="row mb-3">
-        <div className="col-12 col-lg-3 mb-3  ">
+        <div className="col-12 col-lg-3 mb-3">
           <div className="card">
             <div className="card-body">
               <h4>ナビゲーション</h4>
@@ -26,6 +27,11 @@ const Setting = () => {
           <div className="card mb-3">
             <div className="card-body" id="myinfo">
               <MyInfo />
+            </div>
+          </div>
+          <div className="card mb-3">
+            <div className="card-body" id="myinfo">
+              <GroupInfo />
             </div>
           </div>
         </div>

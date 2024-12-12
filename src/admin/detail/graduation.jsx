@@ -52,9 +52,9 @@ const Graduation = () => {
                         })
                         .map((e, index) => {
                           if (index === 0) {
-                            return <OneHeader id={e.id} data={e} />;
+                            return <OneHeader key={e.id} id={e.id} data={e} />;
                           } else {
-                            return <OneGrid id={e.id} data={e} />;
+                            return <OneGrid key={e.id} id={e.id} data={e} />;
                           }
                         })}
                   </div>
@@ -84,7 +84,7 @@ const OneGrid = ({ id, data }) => {
 
   return (
     <div
-      key={e.id}
+      key={id}
       className="col-10 d-flex pt-3 pb-3 text-center"
       style={{ borderBottom: "solid 1px #000" }}
     >
@@ -193,7 +193,7 @@ const OneHeader = ({ id, data }) => {
 
   return (
     <div
-      key={e.id}
+      key={id}
       className="col-10 d-flex pt-4 pb-3 text-center"
       style={{ borderBottom: "solid 2px #000" }}
     >

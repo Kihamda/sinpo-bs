@@ -16,6 +16,8 @@ export function AuthProvider({ children }) {
   const [orgid, setOrgid] = useState("");
   const [role, setRole] = useState("");
   const [verified, setVerified] = useState(false);
+  const [authed, setAuthed] = useState(false);
+  const [reloadHook, setReloadHook] = useState(0);
 
   const value = {
     user,
@@ -25,30 +27,43 @@ export function AuthProvider({ children }) {
     orgid,
     role,
     verified,
+    authed,
+    setReloadHook,
   };
 
   useEffect(() => {
     const unsubscribed = auth.onAuthStateChanged((suser) => {
       if (suser) {
-        getDoc(doc(db, "users", suser.uid)).then((auser) => {
-          setUserName(auser.data().name);
-          setRelid(auser.data().group.relid);
-          setOrgid(auser.data().group.orgid);
-          setVerified(auth.currentUser.emailVerified);
-          getDoc(
-            doc(
-              db,
-              "groups",
-              auser.data().group.orgid,
-              "members",
-              auser.data().group.relid
+        getDoc(doc(db, "users", suser.uid))
+          .then((auser) => {
+            setUserName(auser.data().name);
+            setRelid(auser.data().group.relid);
+            setOrgid(auser.data().group.orgid);
+            setVerified(auth.currentUser.emailVerified);
+            getDoc(
+              doc(
+                db,
+                "groups",
+                auser.data().group.orgid,
+                "members",
+                auser.data().group.relid
+              )
             )
-          ).then((buser) => {
-            setRole(buser.data().role);
-            setUser(suser);
+              .then((buser) => {
+                setRole(buser.data().role);
+                setUser(suser);
+                setAuthed(true);
+                setLoading(false);
+              })
+              .catch(() => {
+                setUser(suser);
+                setLoading(false);
+              });
+          })
+          .catch(() => {
+            setUser(undefined);
             setLoading(false);
           });
-        });
       } else {
         setUser(suser);
         setLoading(false);
@@ -57,7 +72,7 @@ export function AuthProvider({ children }) {
     return () => {
       unsubscribed();
     };
-  }, []);
+  }, [reloadHook]);
 
   if (loading) {
     return (
