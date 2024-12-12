@@ -22,9 +22,8 @@ const Reset = () => {
 
   return (
     <>
-      <h1>パスワードのリセット</h1>
-      <p className="text-center">このフォームは管理者用です</p>
-      <form className="mb-3" onSubmit={handleSubmit}>
+      <h1>リセット</h1>
+      <form className="mb-5 mt-3" onSubmit={handleSubmit}>
         <div className="mb-3">
           <label htmlFor="username" className="form-label">
             メールアドレス
@@ -46,13 +45,10 @@ const Reset = () => {
       </form>
       <div className="text-center">
         <p>
-          <Link to="/auth/login">管理者：ログイン</Link>
+          <Link to="/auth/login">ログイン</Link>
         </p>
         <p>
-          <Link to="/auth/signup">管理者：新規登録</Link>
-        </p>
-        <p>
-          <Link to="/auth/viewer">「データ共有」をされた方はこちら</Link>
+          <Link to="/auth/signup">新規登録</Link>
         </p>
       </div>
     </>

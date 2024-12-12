@@ -16,6 +16,8 @@ import {
   getTroopsListShorted,
 } from "../../firebase/template/setting";
 import { useNavigate } from "react-router-dom";
+import { getFormattedDate } from "../../firebase/tools";
+import { useAuthContext } from "../../firebase/authContext";
 
 // 説明：uid取得してその内容をDBに問い合わせて描画
 const BasicInfo = () => {
@@ -35,6 +37,9 @@ const BasicInfo = () => {
   //ページ遷移用
   const nav = useNavigate();
 
+  //団体ID取得
+  const { orgid } = useAuthContext();
+
   const {
     uid,
     setUserName,
@@ -51,13 +56,16 @@ const BasicInfo = () => {
     // ここにpersonを保存する処理を記述する
     if (isNew) {
       //新規作成ならaddDoc
-      addDoc(collection(db, "scouts"), person).then(
+      addDoc(collection(db, "scouts"), { ...person, group: orgid }).then(
         (docs) => {
           // 登録後、graduationテー��ルにも登録する
           const graduation = getDefaultScoutGraduation();
           const batch = writeBatch(db);
           graduation.forEach((e) => {
-            batch.set(doc(collection(db, "scouts", docs.id, "graduation")), e);
+            batch.set(doc(collection(db, "scouts", docs.id, "graduation")), {
+              ...e,
+              group: orgid,
+            });
           });
           batch.commit().then(() => {
             alert("正常に作成されました");
@@ -70,7 +78,7 @@ const BasicInfo = () => {
       setIsNew(false); // 新規登録時は新規登録ではない
     } else {
       // 既存データならsetDoc
-      setDoc(doc(db, "scouts", uid), person).then(
+      setDoc(doc(db, "scouts", uid), { ...person, group: orgid }).then(
         () => {
           setEdited(false);
           alert("正常に更新されました");
@@ -122,11 +130,11 @@ const BasicInfo = () => {
         savePerson();
       }}
     >
-      <div className="card mb-3">
+      <div className="card">
         <div className="card-body text-center">
           <h3 className="card-title">基本情報</h3>
           <div className="row justify-content-center">
-            <div className="col-12 col-lg-6">
+            <div className="col-12 col-lg-6 mb-5">
               <label htmlFor="name">名前</label>
               <div className="form-group mb-1" id="name">
                 <div className="input-group flex-nowrap">
@@ -191,7 +199,7 @@ const BasicInfo = () => {
                 </select>
               </div>
               <div className="form-group">
-                <label htmlFor="last">経験隊</label>
+                <label htmlFor="last">経験隊（現在所属隊を含む）</label>
                 <div
                   className="d-flex flex-wrap align-content-center justify-content-center"
                   id="last"
@@ -239,7 +247,63 @@ const BasicInfo = () => {
                 </div>
               </div>
             </div>
-            <div className="col-12 col-lg-12">
+          </div>
+          <div className="row">
+            <div className="col-12 col-lg-6">
+              <label htmlFor="birthdate">入団日時</label>
+              <input
+                type="date"
+                required
+                className="form-control"
+                id="birthdate"
+                name="birthdate"
+                disabled={disableEdit}
+                value={person && getFormattedDate(person.joined)}
+                onChange={(e) =>
+                  setPerson({
+                    ...person,
+                    joined: new Date(e.target.value).valueOf(),
+                  })
+                }
+              />
+            </div>
+            <div className="col-6 col-lg-3">
+              <label htmlFor="declaredate">誓いを立てた日</label>
+              <input
+                type="date"
+                className="form-control"
+                id="declaredate"
+                disabled={disableEdit}
+                value={person && getFormattedDate(person.declare.date)}
+                onChange={(e) =>
+                  setPerson({
+                    ...person,
+                    declare: {
+                      ...person.declare,
+                      date: new Date(e.target.value).valueOf(),
+                    },
+                  })
+                }
+              />
+            </div>
+            <div className="col-6 col-lg-3">
+              <label htmlFor="declareplace">誓いを立てた場所</label>
+              <input
+                type="text"
+                className="form-control"
+                id="declareplace"
+                disabled={disableEdit}
+                value={person && person.declare.place}
+                placeholder="ここに場所を入力・・・"
+                onChange={(e) =>
+                  setPerson({
+                    ...person,
+                    declare: { ...person.declare, place: e.target.value },
+                  })
+                }
+              />
+            </div>
+            <div className="col-12 mt-5">
               <label htmlFor="commment">コメント</label>
               <textarea
                 name="comment"
