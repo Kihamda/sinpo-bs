@@ -5,11 +5,15 @@ import { useNavigate } from "react-router-dom";
 import { FormContext } from "./formContext";
 import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "../../firebase/firebase";
+import { useAuthContext } from "../../firebase/authContext";
 
 const Title = () => {
   //いろいろはいったcontextの取得
-  const { setDisableEdit, disableEdit, isNew, userName, uid, role } =
+  const { setDisableEdit, disableEdit, isNew, userName, uid } =
     useContext(FormContext);
+
+  //role取得
+  const { role } = useAuthContext();
 
   //navigation実装（いつもの
   const nav = useNavigate();
