@@ -42,7 +42,7 @@ const Title = () => {
           </span>
         </div>
         <div className="align-content-center">
-          {role == "admin" || role == "EDIT" ? (
+          {role == "ADMIN" || role == "EDIT" ? (
             <>
               {disableEdit ? (
                 <>
